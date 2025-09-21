@@ -18,6 +18,18 @@ type BrowserIconsType = {
   [key: string]: { name: string; icon: string }
 }
 
+const formatAIExplanation = (text: string) => {
+  // Replace **text** with <strong>text</strong>
+  const formattedText = text
+    .replace(/\*\*(.*?)\*\*/g, '<strong>$1</strong>')
+    // Replace single * at the start of lines with bullet points
+    .replace(/^\* /gm, '• ')
+    // Clean up any remaining asterisks
+    .replace(/\*/g, '');
+
+  return formattedText;
+};
+
 function App() {
   const [feature, setFeature] = useState("")
   const [result, setResult] = useState<FeatureResult | null>(null)
@@ -245,7 +257,12 @@ function App() {
               </CardHeader>
               <CardContent>
                 <div className="prose prose-invert max-w-none">
-                  <p className="text-foreground leading-relaxed whitespace-pre-line">{result.aiExplanation}</p>
+                  <div 
+                    className="text-foreground leading-relaxed whitespace-pre-line"
+                    dangerouslySetInnerHTML={{ 
+                      __html: formatAIExplanation(result.aiExplanation) 
+                    }}
+                  />
                 </div>
               </CardContent>
             </Card>
