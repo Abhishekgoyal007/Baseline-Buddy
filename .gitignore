@@ -35,3 +35,10 @@ yarn-error.log*
 # OS
 .DS_Store
 Thumbs.db
+
+# Package manager lockfiles (keep only in subdirectories)
+/package-lock.json
+/yarn.lock
+
+# TypeScript build info
+*.tsbuildinfo

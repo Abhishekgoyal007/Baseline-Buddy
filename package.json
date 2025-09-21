@@ -1,39 +1,31 @@
 {
   "name": "baseline-buddy",
   "version": "1.0.0",
-  "description": "��#\u0000 \u0000B\u0000a\u0000s\u0000e\u0000l\u0000i\u0000n\u0000e\u0000-\u0000B\u0000u\u0000d\u0000d\u0000y\u0000\r\u0000 \u0000",
-  "main": "index.js",
+  "description": "Baseline Buddy - AI-powered health monitoring app",
+  "private": true,
+  "workspaces": [
+    "frontend",
+    "backend"
+  ],
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "dev": "concurrently \"npm run dev --prefix frontend\" \"npm run dev --prefix backend\"",
+    "build": "npm run build --prefix frontend && npm run build --prefix backend",
+    "start:frontend": "npm run dev --prefix frontend",
+    "start:backend": "npm run dev --prefix backend",
+    "install:all": "npm install && npm install --prefix frontend && npm install --prefix backend"
   },
   "repository": {
     "type": "git",
     "url": "git+https://github.com/Abhishekgoyal007/Baseline-Buddy.git"
   },
-  "keywords": [],
+  "keywords": ["health", "ai", "monitoring", "nextjs", "express"],
   "author": "",
   "license": "ISC",
-  "type": "commonjs",
   "bugs": {
     "url": "https://github.com/Abhishekgoyal007/Baseline-Buddy/issues"
   },
   "homepage": "https://github.com/Abhishekgoyal007/Baseline-Buddy#readme",
-  "dependencies": {
-    "@babel/parser": "^7.28.4",
-    "@types/dotenv": "^6.1.1",
-    "axios": "^1.12.2",
-    "cors": "^2.8.5",
-    "dotenv": "^17.2.2",
-    "express": "^5.1.0",
-    "openai": "^5.22.0",
-    "postcss": "^8.5.6",
-    "ts-node-dev": "^2.0.0",
-    "typescript": "^5.9.2",
-    "web-features": "^3.0.0"
-  },
   "devDependencies": {
-    "@types/cors": "^2.8.19",
-    "@types/express": "^5.0.3",
-    "@types/node": "^24.5.2"
+    "concurrently": "^8.2.2"
   }
 }
