@@ -1,12 +1,11 @@
-import type { NextConfig } from "next";
-
-const nextConfig: NextConfig = {
-  /* config options here */
-  experimental: {
-    turbo: {
-      root: ".",
-    },
+/** @type {import('next').NextConfig} */
+const nextConfig = {
+  // Use the new turbopack config format
+  turbopack: {
+    root: __dirname,
   },
-};
+  // Remove deprecated experimental.turbo
+  trailingSlash: false,
+}
 
-export default nextConfig;
+module.exports = nextConfig

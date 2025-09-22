@@ -7,6 +7,10 @@ import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/com
 import { Badge } from "@/components/ui/badge"
 import { Search, Loader2, CheckCircle, XCircle, Globe, Sparkles, Code2, Shield } from "lucide-react"
 
+// ✅ Browser logos from react-icons
+import { SiGooglechrome, SiFirefox, SiSafari, SiAndroid } from "react-icons/si"
+import { FaEdge } from "react-icons/fa"
+
 interface FeatureResult {
   feature: string
   baselineSafe: boolean
@@ -15,20 +19,17 @@ interface FeatureResult {
 }
 
 type BrowserIconsType = {
-  [key: string]: { name: string; icon: string }
+  [key: string]: { name: string; icon: React.ReactNode }
 }
 
 const formatAIExplanation = (text: string) => {
-  // Replace **text** with <strong>text</strong>
   const formattedText = text
-    .replace(/\*\*(.*?)\*\*/g, '<strong>$1</strong>')
-    // Replace single * at the start of lines with bullet points
-    .replace(/^\* /gm, '• ')
-    // Clean up any remaining asterisks
-    .replace(/\*/g, '');
+    .replace(/\*\*(.*?)\*\*/g, "<strong>$1</strong>")
+    .replace(/^\* /gm, "• ")
+    .replace(/\*/g, "")
 
-  return formattedText;
-};
+  return formattedText
+}
 
 function App() {
   const [feature, setFeature] = useState("")
@@ -66,15 +67,51 @@ function App() {
     }
   }
 
-  const browserIcons: BrowserIconsType = {
-    chrome: { name: "Chrome", icon: "🟢" },
-    chrome_android: { name: "Chrome (Android)", icon: "📱" },
-    edge: { name: "Edge", icon: "🔵" },
-    firefox: { name: "Firefox", icon: "🟠" },
-    firefox_android: { name: "Firefox (Android)", icon: "📱" },
-    safari: { name: "Safari", icon: "🔵" },
-    safari_ios: { name: "Safari (iOS)", icon: "📱" },
-  }
+  // ✅ Real Browser Logos
+const browserIcons: BrowserIconsType = {
+  chrome: { 
+    name: "Chrome", 
+    icon: <SiGooglechrome className="w-6 h-6 text-[#4285F4]" /> 
+  },
+  chrome_android: { 
+    name: "Chrome (Android)", 
+    icon: (
+      <div className="flex items-center space-x-1">
+        <SiGooglechrome className="w-5 h-5 text-[#4285F4]" />
+        <span className="text-sm font-bold text-gray-600">+</span>
+        <SiAndroid className="w-4 h-4 text-[#3DDC84]" />
+      </div>
+    ) 
+  },
+  firefox: { 
+    name: "Firefox", 
+    icon: <SiFirefox className="w-6 h-6 text-[#FF7139]" /> 
+  },
+  firefox_android: { 
+    name: "Firefox (Android)", 
+    icon: (
+      <div className="flex items-center space-x-1">
+        <SiFirefox className="w-5 h-5 text-[#FF7139]" />
+        <span className="text-sm font-bold text-gray-600">+</span>
+        <SiAndroid className="w-4 h-4 text-[#3DDC84]" />
+      </div>
+    ) 
+  },
+  safari: { 
+    name: "Safari", 
+    icon: <SiSafari className="w-6 h-6 text-[#0A84FF]" /> 
+  },
+  safari_ios: { 
+    name: "Safari (iOS)", 
+    icon: <SiSafari className="w-6 h-6 text-[#0A84FF]" /> 
+  },
+  edge: { 
+    name: "Edge", 
+    icon: <FaEdge className="w-6 h-6 text-[#0A84FF]" /> 
+  },
+}
+
+
 
   const exampleFeatures = ["fetch", ":has", "container-queries", "grid", "flexbox", "css-variables"]
 
@@ -234,10 +271,10 @@ function App() {
               <CardContent>
                 <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
                   {result.browsers.map((browser, i) => {
-                    const browserInfo = browserIcons[browser] || { name: browser, icon: "🌐" }
+                    const browserInfo = browserIcons[browser] || { name: browser, icon: <Globe /> }
                     return (
                       <div key={i} className="flex items-center gap-3 p-4 rounded-lg bg-muted/50 border">
-                        <span className="text-2xl">{browserInfo.icon}</span>
+                        {browserInfo.icon}
                         <span className="font-medium">{browserInfo.name}</span>
                       </div>
                     )
@@ -257,10 +294,10 @@ function App() {
               </CardHeader>
               <CardContent>
                 <div className="prose prose-invert max-w-none">
-                  <div 
+                  <div
                     className="text-foreground leading-relaxed whitespace-pre-line"
-                    dangerouslySetInnerHTML={{ 
-                      __html: formatAIExplanation(result.aiExplanation) 
+                    dangerouslySetInnerHTML={{
+                      __html: formatAIExplanation(result.aiExplanation),
                     }}
                   />
                 </div>
