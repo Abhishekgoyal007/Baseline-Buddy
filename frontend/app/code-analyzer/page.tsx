@@ -114,6 +114,7 @@ function MyComponent() {
   const [language, setLanguage] = useState("javascript");
   const [result, setResult] = useState<AnalysisResult | null>(null);
   const [loading, setLoading] = useState(false);
+  const [isDarkMode, setIsDarkMode] = useState(true);
 
   const languages = [
     { value: "javascript", label: "JavaScript" },
@@ -195,40 +196,51 @@ function MyComponent() {
           <CardHeader>
             <div className="flex items-center justify-between">
               <CardTitle>Code Editor</CardTitle>
-              <div className="flex items-center gap-2">
-                <label className="text-sm font-medium">Language:</label>
-                <select
-                  value={language}
-                  onChange={(e) => setLanguage(e.target.value)}
-                  className="px-3 py-1 border rounded-md text-sm bg-black text-white focus:ring-2 focus:ring-blue-500 focus:border-blue-500"
-                  style={{
-                    backgroundColor: '#000000',
-                    color: '#ffffff',
-                  }}
-                >
-                  {languages.map((lang) => (
-                    <option 
-                      key={lang.value} 
-                      value={lang.value}
-                      className="bg-black text-white"
-                      style={{
-                        backgroundColor: '#000000',
-                        color: '#ffffff',
-                      }}
-                    >
-                      {lang.label}
-                    </option>
-                  ))}
-                </select>
+              <div className="flex items-center gap-4">
+                <div className="flex items-center gap-2">
+                  <label className="text-sm font-medium">Theme:</label>
+                  <button
+                    onClick={() => setIsDarkMode(!isDarkMode)}
+                    className="px-3 py-1 border rounded-md text-sm bg-black text-white focus:ring-1 focus:ring-blue-500 focus:border-blue-500"
+                  >
+                    {isDarkMode ? "🌙 Dark" : "☀️ Light"}
+                  </button>
+                </div>
+                <div className="flex items-center gap-2">
+                  <label className="text-sm font-medium">Language:</label>
+                  <select
+                    value={language}
+                    onChange={(e) => setLanguage(e.target.value)}
+                    className="px-3 py-1 border rounded-md text-sm bg-black text-white focus:ring-1 focus:ring-blue-500 focus:border-blue-500"
+                    style={{
+                      backgroundColor: '#000000',
+                      color: '#ffffff',
+                    }}
+                  >
+                    {languages.map((lang) => (
+                      <option 
+                        key={lang.value} 
+                        value={lang.value}
+                        className="bg-black text-white"
+                        style={{
+                          backgroundColor: '#000000',
+                          color: '#ffffff',
+                        }}
+                      >
+                        {lang.label}
+                      </option>
+                    ))}
+                  </select>
+                </div>
               </div>
             </div>
           </CardHeader>
           <CardContent>
-            <div className="border rounded-lg overflow-hidden">
+            <div className={`border rounded-lg overflow-hidden ${isDarkMode ? 'border-gray-600' : 'border-gray-300'}`}>
               <Editor
                 height="400px"
                 language={language}
-                theme="vs-light" 
+                theme={isDarkMode ? "vs-dark" : "vs-light"} 
                 value={code}
                 onChange={(value: string | undefined) => setCode(value || "")}
                 options={{
@@ -238,6 +250,26 @@ function MyComponent() {
                   automaticLayout: true,
                   scrollBeyondLastLine: false,
                   wordWrap: "on",
+                  tabSize: 2,
+                  insertSpaces: true,
+                  detectIndentation: true,
+                  renderWhitespace: "selection",
+                  renderControlCharacters: false,
+                  fontFamily: "'Cascadia Code', 'Fira Code', 'JetBrains Mono', 'SF Mono', Monaco, Menlo, 'Ubuntu Mono', monospace",
+                  fontLigatures: true,
+                  cursorBlinking: "blink",
+                  cursorSmoothCaretAnimation: "on",
+                  smoothScrolling: true,
+                  contextmenu: true,
+                  mouseWheelZoom: true,
+                  multiCursorModifier: "ctrlCmd",
+                  suggestOnTriggerCharacters: true,
+                  acceptSuggestionOnEnter: "on",
+                  bracketPairColorization: { enabled: true },
+                  guides: {
+                    bracketPairs: true,
+                    indentation: true,
+                  },
                 }}
               />
             </div>
