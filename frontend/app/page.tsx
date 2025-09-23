@@ -1,15 +1,14 @@
 "use client"
 
 import { useState } from "react"
+import { useRouter } from "next/navigation"
 import { Button } from "@/components/ui/button"
 import { Input } from "@/components/ui/input"
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card"
 import { Badge } from "@/components/ui/badge"
 import { Search, Loader2, CheckCircle, XCircle, Globe, Sparkles, Code2, Shield } from "lucide-react"
 
-// ✅ Browser logos from react-icons
-import { SiGooglechrome, SiFirefox, SiSafari, SiAndroid } from "react-icons/si"
-import { FaEdge } from "react-icons/fa"
+// ✅ Using Globe icon as a fallback for all browsers to maintain functionality
 
 interface FeatureResult {
   feature: string
@@ -32,6 +31,7 @@ const formatAIExplanation = (text: string) => {
 }
 
 function App() {
+  const router = useRouter()
   const [feature, setFeature] = useState("")
   const [result, setResult] = useState<FeatureResult | null>(null)
   const [loading, setLoading] = useState(false)
@@ -54,7 +54,7 @@ function App() {
 
       const data = await response.json()
       setResult(data)
-    } catch (err) {
+    } catch {
       setError("Something went wrong. Please try again later.")
     } finally {
       setLoading(false)
@@ -67,47 +67,47 @@ function App() {
     }
   }
 
-  // ✅ Real Browser Logos
+  // ✅ Browser Icons using Globe as fallback to maintain functionality
 const browserIcons: BrowserIconsType = {
   chrome: { 
     name: "Chrome", 
-    icon: <SiGooglechrome className="w-6 h-6 text-[#4285F4]" /> 
+    icon: <Globe className="w-6 h-6 text-[#4285F4]" /> 
   },
   chrome_android: { 
     name: "Chrome (Android)", 
     icon: (
       <div className="flex items-center space-x-1">
-        <SiGooglechrome className="w-5 h-5 text-[#4285F4]" />
+        <Globe className="w-5 h-5 text-[#4285F4]" />
         <span className="text-sm font-bold text-gray-600">+</span>
-        <SiAndroid className="w-4 h-4 text-[#3DDC84]" />
+        <Globe className="w-4 h-4 text-[#3DDC84]" />
       </div>
     ) 
   },
   firefox: { 
     name: "Firefox", 
-    icon: <SiFirefox className="w-6 h-6 text-[#FF7139]" /> 
+    icon: <Globe className="w-6 h-6 text-[#FF7139]" /> 
   },
   firefox_android: { 
     name: "Firefox (Android)", 
     icon: (
       <div className="flex items-center space-x-1">
-        <SiFirefox className="w-5 h-5 text-[#FF7139]" />
+        <Globe className="w-5 h-5 text-[#FF7139]" />
         <span className="text-sm font-bold text-gray-600">+</span>
-        <SiAndroid className="w-4 h-4 text-[#3DDC84]" />
+        <Globe className="w-4 h-4 text-[#3DDC84]" />
       </div>
     ) 
   },
   safari: { 
     name: "Safari", 
-    icon: <SiSafari className="w-6 h-6 text-[#0A84FF]" /> 
+    icon: <Globe className="w-6 h-6 text-[#0A84FF]" /> 
   },
   safari_ios: { 
     name: "Safari (iOS)", 
-    icon: <SiSafari className="w-6 h-6 text-[#0A84FF]" /> 
+    icon: <Globe className="w-6 h-6 text-[#0A84FF]" /> 
   },
   edge: { 
     name: "Edge", 
-    icon: <FaEdge className="w-6 h-6 text-[#0A84FF]" /> 
+    icon: <Globe className="w-6 h-6 text-[#0A84FF]" /> 
   },
 }
 
@@ -167,9 +167,10 @@ const browserIcons: BrowserIconsType = {
                     onKeyPress={handleKeyPress}
                     className="pl-10 h-12 text-base"
                     disabled={loading}
+                    suppressHydrationWarning
                   />
                 </div>
-                <Button onClick={checkFeature} disabled={loading || !feature.trim()} size="lg" className="px-8">
+                <Button onClick={checkFeature} disabled={loading || !feature} size="lg" className="px-8" suppressHydrationWarning>
                   {loading ? (
                     <>
                       <Loader2 className="w-4 h-4 mr-2 animate-spin" />
@@ -200,6 +201,17 @@ const browserIcons: BrowserIconsType = {
                     </Button>
                   ))}
                 </div>
+              </div>
+              {/* Redirect to Code Analyzer */}
+              <div className="mt-6 text-center">
+                <Button
+                  size="lg"
+                  className="px-8"
+                  onClick={() => router.push("/code-analyzer")}
+                >
+                  <Code2 className="w-4 h-4 mr-2" />
+                  Open Code Analyzer
+                </Button>
               </div>
             </CardContent>
           </Card>
