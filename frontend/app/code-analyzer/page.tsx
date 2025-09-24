@@ -2,9 +2,11 @@
 
 import { useState } from "react";
 import dynamic from "next/dynamic";
+import { useRouter } from "next/navigation";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
+import { ArrowLeft } from "lucide-react";
 
 // Dynamically import Monaco Editor
 const Editor: any = dynamic(
@@ -54,6 +56,7 @@ interface AnalysisResult {
 }
 
 export default function CodeAnalyzerPage() {
+  const router = useRouter();
   const [code, setCode] = useState(`// Modern JavaScript features showcase
 "use client"; // Next.js App Router directive
 
@@ -183,6 +186,16 @@ function MyComponent() {
 
   return (
     <div className="container mx-auto px-6 py-12 max-w-6xl">
+      <div className="mb-6">
+        <Button
+          variant="outline"
+          onClick={() => router.push("/")}
+          className="flex items-center gap-2"
+        >
+          <ArrowLeft/> Back to Home
+        </Button>
+      </div>
+      
       <div className="text-center mb-8">
         <h1 className="text-4xl font-bold mb-4">🔍 Baseline Code Analyzer</h1>
         <p className="text-muted-foreground text-lg">
