@@ -1,6 +1,6 @@
 ﻿"use client";
 
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import dynamic from "next/dynamic";
 import { useRouter } from "next/navigation";
 import { Button } from "@/components/ui/button";
@@ -8,6 +8,19 @@ import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
 import { ArrowLeft } from "lucide-react";
 import { SplitPane } from "@/components/ui/resizable";
+import { auth, googleProvider } from "@/lib/firebase";
+import { onAuthStateChanged, signInWithEmailAndPassword, signInWithPopup,createUserWithEmailAndPassword, User } from "firebase/auth";
+import { Input } from "@/components/ui/input";
+import {
+  Dialog,
+  DialogContent,
+  DialogHeader,
+  DialogTitle,
+} from "@/components/ui/dialog";
+import { saveAs } from "file-saver";
+import jsPDF from "jspdf";
+import { Document, Packer, Paragraph, TextRun, HeadingLevel } from "docx";
+
 
 // Dynamically import Monaco Editor
 const Editor: any = dynamic(
@@ -119,6 +132,201 @@ function MyComponent() {
   const [result, setResult] = useState<AnalysisResult | null>(null);
   const [loading, setLoading] = useState(false);
   const [isDarkMode, setIsDarkMode] = useState(true);
+  const [downloadPending, setDownloadPending] = useState(false);
+  const [downloadFormat, setDownloadFormat] = useState<"json" | "txt" | "csv" | "pdf" | "docx">("json");
+  // User state
+  const [user, setUser] = useState<User | null>(null);
+
+  // Login popup state
+  const [showAuthDialog, setShowAuthDialog] = useState(false);
+  const [authMode, setAuthMode] = useState<"login" | "signup">("login");  
+  const [email, setEmail] = useState("");
+  const [password, setPassword] = useState("");
+  const [authError, setAuthError] = useState("");
+
+  const generatePDF = (result: AnalysisResult) => {
+    const doc = new jsPDF({ unit: "pt", format: "a4" });
+    const pageWidth = doc.internal.pageSize.getWidth();
+    const margin = 40;
+    let y = 40;
+
+    const addCard = (title: string, content: string[], bgColor: string, textColor: string) => {
+      const padding = 15; // Increased padding for nicer spacing
+      const lineHeight = 16; // Line height for content
+      const titleLineHeight = 18; // Line height for title
+
+      // Wrap title
+      const wrappedTitle = doc.splitTextToSize(title, pageWidth - margin * 2 - padding * 2);
+      const titleHeight = wrappedTitle.length * titleLineHeight;
+
+      // Wrap content
+      const wrappedLines: string[][] = content.map(line =>
+        doc.splitTextToSize(line, pageWidth - margin * 2 - padding * 2)
+      );
+      const contentHeight =
+        wrappedLines.reduce((acc, lines) => acc + lines.length * lineHeight + 4, 0); // Added small spacing between lines
+
+      const cardHeight = titleHeight + contentHeight + padding * 2;
+
+      // Draw background card
+      doc.setFillColor(bgColor);
+      doc.roundedRect(margin, y, pageWidth - margin * 2, cardHeight, 5, 5, "F");
+
+      // Draw title
+      doc.setFontSize(14);
+      doc.setFont("helvetica", "bold");
+      doc.setTextColor(textColor);
+      doc.text(wrappedTitle, margin + padding, y + padding + titleLineHeight - 4); // added offset for better spacing
+
+      // Draw content
+      doc.setFontSize(12);
+      doc.setFont("helvetica", "normal");
+      doc.setTextColor("#000000");
+      let contentY = y + padding + titleHeight + 10; // added extra spacing after title
+
+      wrappedLines.forEach(lines => {
+        doc.text(lines, margin + padding, contentY);
+        contentY += lines.length * lineHeight + 4; // spacing between lines
+      });
+
+      y += cardHeight + 20; // spacing between cards
+
+      // Page break if needed
+      if (y + 50 > doc.internal.pageSize.getHeight()) {
+        doc.addPage();
+        y = 40;
+      }
+    };
+
+
+    // Main title
+    const mainTitle = "Code Analysis Report";
+    const wrappedMainTitle = doc.splitTextToSize(mainTitle, pageWidth - margin * 2);
+    doc.setFontSize(22);
+    doc.setFont("helvetica", "bold");
+    doc.setTextColor("#333333");
+    doc.text(wrappedMainTitle, margin, y);
+    y += wrappedMainTitle.length * 20 + 10;
+
+    // Summary
+    addCard(
+      "Analysis Summary",
+      [
+        `Safe: ${result.summary.safe}`,
+        `Caution: ${result.summary.caution}`,
+        `Unsafe: ${result.summary.unsafe}`,
+        `Total: ${result.summary.total}`
+      ],
+      "#f0f0f0",
+      "#1a73e8"
+    );
+
+    // Enhancements
+    if (result.enhancements.length > 0) {
+      addCard(
+        "Enhancement Suggestions",
+        result.enhancements.map(e => `${e.type.toUpperCase()}: ${e.title} - ${e.description}`),
+        "#fff8e1",
+        "#f4b400"
+      );
+    }
+
+    // Features
+    const renderFeaturesCard = (title: string, features: string[], color: string, bgColor: string) => {
+      if (features.length === 0) return;
+      addCard(
+        title,
+        features.map(f => {
+          let lineText = f;
+          if (result.lineNumbers[f]) lineText += ` (Lines: ${result.lineNumbers[f].join(", ")})`;
+          if (result.alternatives[f]) lineText += ` | Recommended: ${result.alternatives[f]}`;
+          return lineText;
+        }),
+        bgColor,
+        color
+      );
+    };
+
+    renderFeaturesCard("Baseline Safe Features", result.safe, "#0f9d58", "#e6f4ea");
+    renderFeaturesCard("Use With Caution", result.caution, "#f4b400", "#fff8e1");
+    renderFeaturesCard("Not Baseline Safe", result.unsafe, "#db4437", "#fdecea");
+
+    doc.save("code-analysis.pdf");
+  };
+
+  const generateDOCXReport = async (result: AnalysisResult) => {
+    const doc = new Document({
+      sections: [
+        {
+          properties: {},
+          children: [
+            new Paragraph({
+              text: "🔍 Baseline Code Analysis Report",
+              heading: HeadingLevel.TITLE,
+            }),
+            new Paragraph({
+              text: `Generated on: ${new Date().toLocaleString()}`,
+              spacing: { after: 200 },
+            }),
+
+            new Paragraph({ text: "📊 Summary", heading: HeadingLevel.HEADING_1 }),
+            new Paragraph({ text: `Safe: ${result.summary.safe}` }),
+            new Paragraph({ text: `Caution: ${result.summary.caution}` }),
+            new Paragraph({ text: `Unsafe: ${result.summary.unsafe}` }),
+            new Paragraph({ text: `Total: ${result.summary.total}` }),
+
+            new Paragraph({ text: "💡 Enhancement Suggestions", heading: HeadingLevel.HEADING_1 }),
+            ...result.enhancements.map((e) =>
+              new Paragraph({
+                children: [
+                  new TextRun({ text: `[${e.type.toUpperCase()}] ${e.title}: `, bold: true }),
+                  new TextRun(e.description),
+                ],
+                spacing: { after: 100 },
+              })
+            ),
+
+            new Paragraph({ text: "✅ Safe Features", heading: HeadingLevel.HEADING_1 }),
+            ...result.safe.map(f =>
+              new Paragraph({
+                text: `- ${f} (Lines: ${result.lineNumbers[f]?.join(",") || "N/A"}): ${result.explanations[f] || ""}`,
+                spacing: { after: 100 },
+              })
+            ),
+
+            new Paragraph({ text: "⚠️ Caution Features", heading: HeadingLevel.HEADING_1 }),
+            ...result.caution.map(f =>
+              new Paragraph({
+                text: `- ${f} (Lines: ${result.lineNumbers[f]?.join(",") || "N/A"}): ${result.explanations[f] || ""}`,
+                spacing: { after: 100 },
+              })
+            ),
+
+            new Paragraph({ text: "❌ Unsafe Features", heading: HeadingLevel.HEADING_1 }),
+            ...result.unsafe.map(f =>
+              new Paragraph({
+                text: `- ${f} (Lines: ${result.lineNumbers[f]?.join(",") || "N/A"}): ${result.explanations[f] || ""}`,
+                spacing: { after: 100 },
+              })
+            ),
+          ],
+        },
+      ],
+    });
+
+    const buffer = await Packer.toBlob(doc);
+    saveAs(buffer, "code-analysis-report.docx");
+  };
+
+
+
+  // Listen for auth changes
+  useEffect(() => {
+    const unsubscribe = onAuthStateChanged(auth, (u) => {
+      setUser(u);
+    });
+    return () => unsubscribe();
+  }, []);
 
   const languages = [
     { value: "javascript", label: "JavaScript" },
@@ -151,13 +359,13 @@ function MyComponent() {
       const response = await fetch("http://localhost:5000/analyze-code", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ code, language })
+        body: JSON.stringify({ code, language }),
       });
-      
+
       if (!response.ok) {
         throw new Error("Failed to analyze code");
       }
-      
+
       const data = await response.json();
       setResult(data);
     } catch (error) {
@@ -170,24 +378,97 @@ function MyComponent() {
         alternatives: {},
         lineNumbers: {},
         summary: { safe: 0, caution: 0, unsafe: 0, total: 0 },
-        codeAnalysis: { 
-          totalLines: 0, 
-          nonEmptyLines: 0, 
-          commentLines: 0, 
-          codeLines: 0, 
-          complexity: "Unknown" 
+        codeAnalysis: {
+          totalLines: 0,
+          nonEmptyLines: 0,
+          commentLines: 0,
+          codeLines: 0,
+          complexity: "Unknown",
         },
         enhancements: [],
-        language: "unknown"
+        language: "unknown",
       });
     } finally {
       setLoading(false);
     }
   };
 
+  const handleDownload = async () => {
+    if (!user) {
+      setDownloadPending(true);
+      setShowAuthDialog(true);
+      return;
+    }
+    if (!result) return;
+
+    const fileNameBase = "code-analysis";
+
+    if (downloadFormat === "json") {
+      const blob = new Blob([JSON.stringify(result, null, 2)], { type: "application/json" });
+      saveAs(blob, `${fileNameBase}.json`);
+    } else if (downloadFormat === "txt") {
+      const content = `
+        Analysis Summary:
+        Safe: ${result.summary.safe}
+        Caution: ${result.summary.caution}
+        Unsafe: ${result.summary.unsafe}
+        Total: ${result.summary.total}
+
+        Enhancements:
+        ${result.enhancements.map(e => `- ${e.type.toUpperCase()}: ${e.title} - ${e.description}`).join("\n")}
+
+        Safe Features: ${result.safe.join(", ")}
+        Caution Features: ${result.caution.join(", ")}
+        Unsafe Features: ${result.unsafe.join(", ")}
+        `;
+      saveAs(new Blob([content], { type: "text/plain" }), `${fileNameBase}.txt`);
+    } else if (downloadFormat === "csv") {
+      const content = `Category,Count\nSafe,${result.summary.safe}\nCaution,${result.summary.caution}\nUnsafe,${result.summary.unsafe}\nTotal,${result.summary.total}`;
+      saveAs(new Blob([content], { type: "text/csv" }), `${fileNameBase}.csv`);
+    } else if (downloadFormat === "pdf") {
+      generatePDF(result);
+    } else if (downloadFormat === "docx") {
+      await generateDOCXReport(result);
+    }
+
+
+    setDownloadPending(false);
+  };
+
+
+  const handleAuth = async () => {
+    try {
+      if (authMode === "login") {
+        await signInWithEmailAndPassword(auth, email, password);
+      } else {
+        await createUserWithEmailAndPassword(auth, email, password);
+      }
+      setShowAuthDialog(false);
+      setAuthError("");
+    } catch (err) {
+      setAuthError("Authentication failed. Check your credentials.");
+    }
+  };
+
+  const handleGoogleLogin = async () => {
+    try {
+      await signInWithPopup(auth, googleProvider);
+      setShowAuthDialog(false);
+      setAuthError("");
+    } catch (err) {
+      setAuthError("Google sign-in failed");
+    }
+  };
+
+useEffect(() => {
+  if (user && downloadPending) {
+    handleDownload();
+  }
+}, [user, downloadPending]);
+
   return (
     <div className="container mx-auto px-6 py-12 max-w-6xl">
-      <div className="mb-6">
+      <div className="mb-4">
         <Button
           variant="outline"
           onClick={() => router.push("/")}
@@ -297,6 +578,25 @@ function MyComponent() {
                   disabled={loading || !code.trim()}
                 >
                   {loading ? "🔍 Analyzing..." : "🚀 Analyze Code"}
+                </Button>
+                <div className="flex items-center gap-2 mt-2">
+                  <label className="text-sm font-medium">Format:</label>
+                  <select
+                    value={downloadFormat}
+                    onChange={(e) => setDownloadFormat(e.target.value as any)}
+                    className="px-3 py-1 border rounded-md text-sm bg-black text-white focus:ring-1 focus:ring-blue-500 focus:border-blue-500"
+                    style={{ backgroundColor: '#000', color: '#fff' }}
+                  >
+                    <option value="json">JSON</option>
+                    <option value="txt">TXT</option>
+                    <option value="csv">CSV</option>
+                    <option value="pdf">PDF</option>
+                    <option value="docx">DOCX</option>
+                  </select>
+                </div>
+
+                <Button onClick={handleDownload} className="w-full mt-2" disabled={!result}>
+                  ⬇️ Download Analysis
                 </Button>
               </CardContent>
             </Card>
@@ -449,7 +749,7 @@ function MyComponent() {
                               {result?.explanations?.[feature] || 'No explanation available'}
                             </p>
                             {result?.alternatives?.[feature] && (
-                              <div className="mt-2 p-2 bg-yellow-100 rounded text-sm">
+                              <div className="mt-2 p-2 text-black bg-yellow-100 rounded text-sm">
                                 <strong>Alternative:</strong> {result.alternatives[feature]}
                               </div>
                             )}
@@ -485,7 +785,7 @@ function MyComponent() {
                               {result?.explanations?.[feature] || 'No explanation available'}
                             </p>
                             {result?.alternatives?.[feature] && (
-                              <div className="mt-2 p-2 bg-red-100 rounded text-sm">
+                              <div className="mt-2 p-2 text-black bg-red-100 rounded text-sm">
                                 <strong>Recommended:</strong> {result.alternatives[feature]}
                               </div>
                             )}
@@ -537,6 +837,24 @@ function MyComponent() {
           }
         />
       </div>
+      {/* Login / SignUp Dialog */}
+      <Dialog open={showAuthDialog} onOpenChange={setShowAuthDialog}>
+        <DialogContent>
+          <DialogHeader>
+            <DialogTitle>{authMode === "login" ? "Login" : "Sign Up"} Required</DialogTitle>
+          </DialogHeader>
+          <div className="space-y-3">
+            <Input type="email" placeholder="Email" value={email} onChange={(e) => setEmail(e.target.value)} />
+            <Input type="password" placeholder="Password" value={password} onChange={(e) => setPassword(e.target.value)} />
+            {authError && <p className="text-red-600 text-sm">{authError}</p>}
+            <Button className="w-full" onClick={handleAuth}>{authMode === "login" ? "Login" : "Sign Up"}</Button>
+            <Button variant="secondary" className="w-full" onClick={handleGoogleLogin}>Continue with Google</Button>
+            <Button variant="link" className="w-full mt-2" onClick={() => setAuthMode(authMode === "login" ? "signup" : "login")}>
+              {authMode === "login" ? "Don't have an account? Sign Up" : "Already have an account? Login"}
+            </Button>
+          </div>
+        </DialogContent>
+      </Dialog>
     </div>
   );
 }

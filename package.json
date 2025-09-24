@@ -18,7 +18,13 @@
     "type": "git",
     "url": "git+https://github.com/Abhishekgoyal007/Baseline-Buddy.git"
   },
-  "keywords": ["health", "ai", "monitoring", "nextjs", "express"],
+  "keywords": [
+    "health",
+    "ai",
+    "monitoring",
+    "nextjs",
+    "express"
+  ],
   "author": "",
   "license": "ISC",
   "bugs": {

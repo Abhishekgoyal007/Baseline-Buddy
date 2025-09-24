@@ -2,6 +2,7 @@
 
 import { useState } from "react"
 import { useRouter } from "next/navigation"
+import Image from "next/image"
 import { Button } from "@/components/ui/button"
 import { Input } from "@/components/ui/input"
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card"
@@ -123,9 +124,14 @@ const browserIcons: BrowserIconsType = {
         <div className="container mx-auto px-6 py-4">
           <div className="flex items-center justify-between">
             <div className="flex items-center gap-3">
-              <div className="w-10 h-10 rounded-lg bg-primary/20 flex items-center justify-center">
-                <Code2 className="w-6 h-6 text-primary" />
-              </div>
+              <div className="w-13 h-13 rounded-lg flex items-center justify-center">
+                <Image
+                  src="/logo.png" // 👈 Update with your logo path
+                  alt="Baseline Buddy Logo"
+                  width={2000} // 👈 Set width
+                  height={2000} // 👈 Set height
+                />
+              </div>
               <div>
                 <h1 className="text-xl font-bold text-foreground">Baseline Buddy</h1>
                 <p className="text-sm text-muted-foreground">Web Feature Compatibility Checker</p>
