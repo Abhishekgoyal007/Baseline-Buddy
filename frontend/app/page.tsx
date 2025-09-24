@@ -7,6 +7,9 @@ import { Input } from "@/components/ui/input"
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card"
 import { Badge } from "@/components/ui/badge"
 import { Search, Loader2, CheckCircle, XCircle, Globe, Sparkles, Code2, Shield } from "lucide-react"
+import { SiGooglechrome, SiFirefox, SiSafari, SiAndroid } from "react-icons/si"
+import { FaEdge } from "react-icons/fa"
+
 
 // ✅ Using Globe icon as a fallback for all browsers to maintain functionality
 
@@ -71,43 +74,43 @@ function App() {
 const browserIcons: BrowserIconsType = {
   chrome: { 
     name: "Chrome", 
-    icon: <Globe className="w-6 h-6 text-[#4285F4]" /> 
+    icon: <SiGooglechrome className="w-6 h-6 text-[#4285F4]" /> 
   },
   chrome_android: { 
     name: "Chrome (Android)", 
     icon: (
       <div className="flex items-center space-x-1">
-        <Globe className="w-5 h-5 text-[#4285F4]" />
+        <SiGooglechrome className="w-5 h-5 text-[#4285F4]" />
         <span className="text-sm font-bold text-gray-600">+</span>
-        <Globe className="w-4 h-4 text-[#3DDC84]" />
+        <SiAndroid className="w-4 h-4 text-[#3DDC84]" />
       </div>
     ) 
   },
   firefox: { 
     name: "Firefox", 
-    icon: <Globe className="w-6 h-6 text-[#FF7139]" /> 
+    icon: <SiFirefox className="w-6 h-6 text-[#FF7139]" /> 
   },
   firefox_android: { 
     name: "Firefox (Android)", 
     icon: (
       <div className="flex items-center space-x-1">
-        <Globe className="w-5 h-5 text-[#FF7139]" />
+        <SiFirefox className="w-5 h-5 text-[#FF7139]" />
         <span className="text-sm font-bold text-gray-600">+</span>
-        <Globe className="w-4 h-4 text-[#3DDC84]" />
+        <SiAndroid className="w-4 h-4 text-[#3DDC84]" />
       </div>
     ) 
   },
   safari: { 
     name: "Safari", 
-    icon: <Globe className="w-6 h-6 text-[#0A84FF]" /> 
+    icon: <SiSafari className="w-6 h-6 text-[#0A84FF]" /> 
   },
   safari_ios: { 
     name: "Safari (iOS)", 
-    icon: <Globe className="w-6 h-6 text-[#0A84FF]" /> 
+    icon: <SiSafari className="w-6 h-6 text-[#0A84FF]" /> 
   },
   edge: { 
     name: "Edge", 
-    icon: <Globe className="w-6 h-6 text-[#0A84FF]" /> 
+    icon: <FaEdge className="w-6 h-6 text-[#0A84FF]" /> 
   },
 }
 
