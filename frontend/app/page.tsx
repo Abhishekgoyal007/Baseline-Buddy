@@ -111,8 +111,6 @@ const browserIcons: BrowserIconsType = {
   },
 }
 
-
-
   const exampleFeatures = ["fetch", ":has", "container-queries", "grid", "flexbox", "css-variables"]
 
   return (
