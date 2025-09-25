@@ -362,12 +362,18 @@ function MyComponent() {
       const controller = new AbortController();
       const timeoutId = setTimeout(() => controller.abort(), 30000); // 30 second timeout
 
-      const response = await fetch(`${process.env.NEXT_PUBLIC_API_URL || "http://localhost:5000"}/analyze-code`, {
+      const apiUrl = process.env.NEXT_PUBLIC_API_URL || "https://baseline-buddy-backend.onrender.com";
+      console.log("Making request to:", `${apiUrl}/analyze-code`);
+      console.log("Environment API URL:", process.env.NEXT_PUBLIC_API_URL);
+
+      const response = await fetch(`${apiUrl}/analyze-code`, {
         method: "POST",
         headers: { 
           "Content-Type": "application/json",
           "Accept": "application/json",
-          "Cache-Control": "no-cache"
+          "Cache-Control": "no-cache, no-store, must-revalidate",
+          "Pragma": "no-cache",
+          "Expires": "0"
         },
         body: JSON.stringify({ code, language }),
         signal: controller.signal,
@@ -377,11 +383,15 @@ function MyComponent() {
 
       clearTimeout(timeoutId);
 
+      console.log("Response status:", response.status);
+      console.log("Response ok:", response.ok);
+
       if (!response.ok) {
-        throw new Error(`HTTP error! status: ${response.status}`);
+        throw new Error(`HTTP error! status: ${response.status} - ${response.statusText}`);
       }
 
       const data = await response.json();
+      console.log("Analysis result:", data);
       setResult(data);
     } catch (error) {
       console.error("Analysis error:", error);
