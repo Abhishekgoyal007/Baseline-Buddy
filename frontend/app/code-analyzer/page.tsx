@@ -358,25 +358,54 @@ function MyComponent() {
 
     setLoading(true);
     try {
+      // Create AbortController for timeout
+      const controller = new AbortController();
+      const timeoutId = setTimeout(() => controller.abort(), 30000); // 30 second timeout
+
       const response = await fetch(`${process.env.NEXT_PUBLIC_API_URL || "http://localhost:5000"}/analyze-code`, {
         method: "POST",
-        headers: { "Content-Type": "application/json" },
+        headers: { 
+          "Content-Type": "application/json",
+          "Accept": "application/json",
+          "Cache-Control": "no-cache"
+        },
         body: JSON.stringify({ code, language }),
+        signal: controller.signal,
+        mode: 'cors',
+        credentials: 'omit'
       });
 
+      clearTimeout(timeoutId);
+
       if (!response.ok) {
-        throw new Error("Failed to analyze code");
+        throw new Error(`HTTP error! status: ${response.status}`);
       }
 
       const data = await response.json();
       setResult(data);
     } catch (error) {
       console.error("Analysis error:", error);
+      let errorMessage = "Analysis failed. ";
+      
+      if (error instanceof Error) {
+        if (error.name === 'AbortError') {
+          errorMessage += "Request timed out. Please try again.";
+        } else if (error.message.includes('Failed to fetch')) {
+          errorMessage += "Network error. Check your connection and try again.";
+        } else if (error.message.includes('HTTP error')) {
+          errorMessage += "Server error. Please try again later.";
+        } else {
+          errorMessage += "Please check your connection and try again.";
+        }
+      } else {
+        errorMessage += "Please check your connection and try again.";
+      }
+      
       setResult({
         safe: [],
         caution: [],
         unsafe: [],
-        explanations: { error: "Analysis failed. Make sure the backend is running." },
+        explanations: { error: errorMessage },
         alternatives: {},
         lineNumbers: {},
         summary: { safe: 0, caution: 0, unsafe: 0, total: 0 },
