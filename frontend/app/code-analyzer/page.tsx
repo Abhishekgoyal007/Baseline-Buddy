@@ -323,11 +323,7 @@ function MyComponent() {
 
   // Listen for auth changes
   useEffect(() => {
-    if (!auth) {
-      // Firebase not initialized, skip auth
-      return;
-    }
-    
+    if (!auth) return;
     const unsubscribe = onAuthStateChanged(auth, (u) => {
       setUser(u);
     });
@@ -400,6 +396,11 @@ function MyComponent() {
   };
 
   const handleDownload = async () => {
+    if (!user) {
+      setDownloadPending(true);
+      setShowAuthDialog(true);
+      return;
+    }
     if (!result) return;
 
     const fileNameBase = "code-analysis";
@@ -442,7 +443,6 @@ function MyComponent() {
       setAuthError("Authentication not available");
       return;
     }
-    
     try {
       if (authMode === "login") {
         await signInWithEmailAndPassword(auth, email, password);
@@ -461,7 +461,6 @@ function MyComponent() {
       setAuthError("Authentication not available");
       return;
     }
-    
     try {
       await signInWithPopup(auth, googleProvider);
       setShowAuthDialog(false);

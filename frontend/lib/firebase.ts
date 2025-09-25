@@ -3,31 +3,34 @@ import { initializeApp } from "firebase/app";
 import { getAuth, GoogleAuthProvider } from "firebase/auth";
 import { getAnalytics } from "firebase/analytics";
 
-// Default fallback configuration for development/demo
-const firebaseConfig = {
-  apiKey: process.env.NEXT_PUBLIC_FIREBASE_API_KEY || "demo-key",
-  authDomain: process.env.NEXT_PUBLIC_FIREBASE_AUTH_DOMAIN || "demo.firebaseapp.com",
-  projectId: process.env.NEXT_PUBLIC_FIREBASE_PROJECT_ID || "demo-project",
-  storageBucket: process.env.NEXT_PUBLIC_FIREBASE_STORAGE_BUCKET || "demo-project.appspot.com",
-  messagingSenderId: process.env.NEXT_PUBLIC_FIREBASE_MESSAGING_SENDER_ID || "123456789",
-  appId: process.env.NEXT_PUBLIC_FIREBASE_APP_ID || "1:123456789:web:demo",
-  measurementId: process.env.NEXT_PUBLIC_FIREBASE_MEASUREMENT_ID || "G-DEMO",
-};
-
-// Only initialize Firebase if we have a valid API key
+// Only initialize Firebase if we have valid environment variables
 let app: any = null;
 let auth: any = null;
 
-try {
-  if (firebaseConfig.apiKey !== "demo-key" && firebaseConfig.apiKey) {
+// Check if we have actual Firebase config (not just fallbacks)
+const hasFirebaseConfig = process.env.NEXT_PUBLIC_FIREBASE_API_KEY && 
+                          process.env.NEXT_PUBLIC_FIREBASE_AUTH_DOMAIN &&
+                          process.env.NEXT_PUBLIC_FIREBASE_PROJECT_ID;
+
+if (hasFirebaseConfig) {
+  try {
+    const firebaseConfig = {
+      apiKey: process.env.NEXT_PUBLIC_FIREBASE_API_KEY,
+      authDomain: process.env.NEXT_PUBLIC_FIREBASE_AUTH_DOMAIN,
+      projectId: process.env.NEXT_PUBLIC_FIREBASE_PROJECT_ID,
+      storageBucket: process.env.NEXT_PUBLIC_FIREBASE_STORAGE_BUCKET,
+      messagingSenderId: process.env.NEXT_PUBLIC_FIREBASE_MESSAGING_SENDER_ID,
+      appId: process.env.NEXT_PUBLIC_FIREBASE_APP_ID,
+      measurementId: process.env.NEXT_PUBLIC_FIREBASE_MEASUREMENT_ID,
+    };
+    
     app = initializeApp(firebaseConfig);
     auth = getAuth(app);
+  } catch (error) {
+    console.warn("Firebase initialization failed:", error);
   }
-} catch (error) {
-  console.warn("Firebase initialization failed, running in demo mode");
 }
 
-// Export auth with fallback
 export { auth };
 
 // Analytics (only initialize in browser environment)
