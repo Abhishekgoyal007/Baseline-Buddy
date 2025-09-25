@@ -52,7 +52,7 @@ function App() {
       console.log("Feature check request to:", `${apiUrl}/check-feature`);
       console.log("Environment API URL:", process.env.NEXT_PUBLIC_API_URL);
 
-      const response = await fetch(`${apiUrl}/check-feature`, {
+      const response = await fetch(`${apiUrl}/check-feature-v2`, {
         method: "POST",
         headers: { 
           "Content-Type": "application/json",

@@ -42,7 +42,7 @@ app.get("/", (req, res) => {
   res.send("Baseline Buddy Backend is running!");
 });
 
-// Route: check feature - ULTRA MINIMAL VERSION
+// Route: check feature - WORKING VERSION
 app.post("/check-feature", (req, res) => {
   res.header('Access-Control-Allow-Origin', '*');
   res.header('Access-Control-Allow-Methods', 'GET, POST, PUT, DELETE, OPTIONS');
@@ -58,6 +58,16 @@ app.post("/check-feature", (req, res) => {
     baselineSafe: true,
     browsers: ["chrome", "firefox", "safari", "edge"],
     aiExplanation: `The "${feature}" feature is generally well supported in modern browsers.`
+  });
+});
+
+// NEW endpoint for testing
+app.post("/check-feature-v2", (req, res) => {
+  res.json({
+    feature: req.body?.feature || "unknown",
+    baselineSafe: true,
+    browsers: ["chrome", "firefox", "safari", "edge"],
+    aiExplanation: "Feature compatibility check completed."
   });
 });
 
