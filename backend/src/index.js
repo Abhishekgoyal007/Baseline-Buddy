@@ -25,8 +25,15 @@ app.use(express.urlencoded({ extended: true }));
 const port = process.env.PORT || 5000;
 
 // Gemini AI setup
-const genAI = new GoogleGenerativeAI(process.env.GOOGLE_API_KEY);
-const model = genAI.getGenerativeModel({ model: "gemini-1.5-flash" });
+let model = null;
+try {
+  if (process.env.GOOGLE_API_KEY) {
+    const genAI = new GoogleGenerativeAI(process.env.GOOGLE_API_KEY);
+    model = genAI.getGenerativeModel({ model: "gemini-1.5-flash" });
+  }
+} catch (error) {
+  console.error("AI initialization failed:", error);
+}
 
 console.log("Environment check - GOOGLE_API_KEY:", process.env.GOOGLE_API_KEY ? "Found" : "Missing");
 
@@ -52,7 +59,7 @@ app.post("/check-feature", async (req, res) => {
     // 2️⃣ Generate AI explanation
     let aiExplanation = "";
     try {
-      if (process.env.GOOGLE_API_KEY) {
+      if (model && process.env.GOOGLE_API_KEY) {
         const prompt = `
 You are a senior web developer helping another developer.
 The feature "${feature}" is ${baselineSafe ? "fully safe" : "not fully supported"} in modern browsers.
