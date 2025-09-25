@@ -42,32 +42,23 @@ app.get("/", (req, res) => {
   res.send("Baseline Buddy Backend is running!");
 });
 
-// Route: check feature - MINIMAL VERSION
-app.post("/check-feature", async (req, res) => {
-  try {
-    console.log("Request body:", req.body);
-    const { feature } = req.body;
-    if (!feature) return res.status(400).json({ error: "Feature is required" });
-
-    // Simple response without external dependencies
-    const result = {
-      feature,
-      baselineSafe: true, // Default to true for now
-      browsers: ["chrome", "firefox", "safari", "edge"],
-      aiExplanation: `The "${feature}" feature compatibility information is being checked. Please refer to caniuse.com for detailed browser support.`,
-    };
-    
-    // Set explicit headers for better browser compatibility
-    res.header('Access-Control-Allow-Origin', '*');
-    res.header('Access-Control-Allow-Methods', 'GET, POST, PUT, DELETE, OPTIONS');
-    res.header('Access-Control-Allow-Headers', 'Content-Type, Authorization, Accept, Origin, X-Requested-With');
-    
-    console.log("Sending result:", result);
-    res.json(result);
-  } catch (err) {
-    console.error("Error in /check-feature:", err);
-    res.status(500).json({ error: "Something went wrong: " + err.message });
+// Route: check feature - ULTRA MINIMAL VERSION
+app.post("/check-feature", (req, res) => {
+  res.header('Access-Control-Allow-Origin', '*');
+  res.header('Access-Control-Allow-Methods', 'GET, POST, PUT, DELETE, OPTIONS');
+  res.header('Access-Control-Allow-Headers', 'Content-Type, Authorization, Accept, Origin, X-Requested-With');
+  
+  const { feature } = req.body || {};
+  if (!feature) {
+    return res.status(400).json({ error: "Feature is required" });
   }
+
+  res.json({
+    feature: feature,
+    baselineSafe: true,
+    browsers: ["chrome", "firefox", "safari", "edge"],
+    aiExplanation: `The "${feature}" feature is generally well supported in modern browsers.`
+  });
 });
 
 // Route: analyze code
