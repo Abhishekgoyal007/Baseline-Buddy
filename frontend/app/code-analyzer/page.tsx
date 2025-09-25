@@ -3,10 +3,11 @@
 import { useState, useEffect } from "react";
 import dynamic from "next/dynamic";
 import { useRouter } from "next/navigation";
+import Image from "next/image"; // Import the Image component
 import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
-import { ArrowLeft } from "lucide-react";
+import { ArrowLeft, Download, Search, Sun, Moon } from "lucide-react";
 import { SplitPane } from "@/components/ui/resizable";
 import { auth, googleProvider } from "@/lib/firebase";
 import { onAuthStateChanged, signInWithEmailAndPassword, signInWithPopup,createUserWithEmailAndPassword, User } from "firebase/auth";
@@ -468,22 +469,48 @@ useEffect(() => {
 
   return (
     <div className="container mx-auto px-6 py-12 max-w-6xl">
-      <div className="mb-4">
-        <Button
-          variant="outline"
-          onClick={() => router.push("/")}
-          className="flex items-center gap-2"
-        >
-          <ArrowLeft/> Back to Home
-        </Button>
+      <div className="flex flex-col sm:flex-row items-center justify-center mb-1 relative">
+        <div className="absolute top-0 left-0">
+            <Button
+              variant="outline"
+              onClick={() => router.push("/")}
+              className="flex items-center gap-2"
+            >
+              <ArrowLeft/>
+            </Button>
+        </div>
+        <div className="text-center">
+            <h1 className="text-3xl font-bold flex items-center justify-center">
+              <Image src="/logo.png" alt="App Logo" width={50} height={50} className="mr-2" />
+              Baseline Code Analyzer
+            </h1>
+        </div>
       </div>
       
-      <div className="text-center mb-8">
-        <h1 className="text-4xl font-bold mb-4">🔍 Baseline Code Analyzer</h1>
+      <div className="text-center mb-4">
         <p className="text-muted-foreground text-lg">
           Check if your HTML, CSS, JavaScript, TypeScript, or React code is Baseline Web Platform safe
         </p>
       </div>
+
+      <style jsx global>{`
+        ::-webkit-scrollbar {
+          width: 8px;
+        }
+
+        ::-webkit-scrollbar-track {
+          background: #2D2D2D;
+        }
+
+        ::-webkit-scrollbar-thumb {
+          background: #4F4F4F;
+          border-radius: 4px;
+        }
+
+        ::-webkit-scrollbar-thumb:hover {
+          background: #5a5a5a;
+        }
+      `}</style>
 
       <div className="h-[calc(100vh-200px)]">
         <SplitPane
@@ -498,12 +525,13 @@ useEffect(() => {
                   <div className="flex items-center gap-4">
                     <div className="flex items-center gap-2">
                       <label className="text-sm font-medium">Theme:</label>
-                      <button
+                      <Button
+                        variant="outline"
+                        size="icon"
                         onClick={() => setIsDarkMode(!isDarkMode)}
-                        className="px-3 py-1 border rounded-md text-sm bg-black text-white focus:ring-1 focus:ring-blue-500 focus:border-blue-500"
                       >
-                        {isDarkMode ? "🌙 Dark" : "☀️ Light"}
-                      </button>
+                        {isDarkMode ? <Moon className="h-4 w-4" /> : <Sun className="h-4 w-4" />}
+                      </Button>
                     </div>
                     <div className="flex items-center gap-2">
                       <label className="text-sm font-medium">Language:</label>
@@ -577,27 +605,28 @@ useEffect(() => {
                   className="w-full mt-4"
                   disabled={loading || !code.trim()}
                 >
-                  {loading ? "🔍 Analyzing..." : "🚀 Analyze Code"}
+                  {loading ? "🔍 Analyzing..." : <><Search className="mr-2 h-4 w-4" /> Analyze Code</>}
                 </Button>
-                <div className="flex items-center gap-2 mt-2">
-                  <label className="text-sm font-medium">Format:</label>
-                  <select
-                    value={downloadFormat}
-                    onChange={(e) => setDownloadFormat(e.target.value as any)}
-                    className="px-3 py-1 border rounded-md text-sm bg-black text-white focus:ring-1 focus:ring-blue-500 focus:border-blue-500"
-                    style={{ backgroundColor: '#000', color: '#fff' }}
-                  >
-                    <option value="json">JSON</option>
-                    <option value="txt">TXT</option>
-                    <option value="csv">CSV</option>
-                    <option value="pdf">PDF</option>
-                    <option value="docx">DOCX</option>
-                  </select>
+                <div className="flex flex-col sm:flex-row items-center justify-between gap-2 mt-2">
+                  <div className="flex items-center gap-2">
+                    <label className="text-sm font-medium">Format:</label>
+                    <select
+                      value={downloadFormat}
+                      onChange={(e) => setDownloadFormat(e.target.value as any)}
+                      className="px-3 py-1 border rounded-md text-sm bg-black text-white focus:ring-1 focus:ring-blue-500 focus:border-blue-500"
+                      style={{ backgroundColor: '#000', color: '#fff' }}
+                    >
+                      <option value="json">JSON</option>
+                      <option value="txt">TXT</option>
+                      <option value="csv">CSV</option>
+                      <option value="pdf">PDF</option>
+                      <option value="docx">DOCX</option>
+                    </select>
+                  </div>
+                  <Button onClick={handleDownload} className="flex-grow sm:flex-grow-0 w-full sm:w-auto" disabled={!result}>
+                    <Download className="mr-2 h-4 w-4" /> Download Analysis
+                  </Button>
                 </div>
-
-                <Button onClick={handleDownload} className="w-full mt-2" disabled={!result}>
-                  ⬇️ Download Analysis
-                </Button>
               </CardContent>
             </Card>
           }
