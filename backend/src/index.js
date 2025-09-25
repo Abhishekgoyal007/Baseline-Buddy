@@ -51,35 +51,27 @@ app.post("/check-feature", async (req, res) => {
 
     // 1️⃣ Check Baseline using web-features
     console.log("Looking for feature:", feature);
-    const support = wf.features[feature];
-    console.log("Support data:", support ? "found" : "not found");
-    const baselineSafe = (support && support.status && support.status.baseline === "high") || false;
-    const browsers = (support && support.status && support.status.support) ? Object.keys(support.status.support) : [];
-
-    // 2️⃣ Generate AI explanation
-    let aiExplanation = "";
+    let support = null;
+    let baselineSafe = false;
+    let browsers = [];
+    
     try {
-      if (model && process.env.GOOGLE_API_KEY) {
-        const prompt = `
-You are a senior web developer helping another developer.
-The feature "${feature}" is ${baselineSafe ? "fully safe" : "not fully supported"} in modern browsers.
-Explain why this feature is ${baselineSafe ? "safe" : "risky"} and suggest safer alternatives if needed.
-Keep the explanation short, clear, and actionable.
-`;
+      support = wf.features[feature];
+      console.log("Support data:", support ? "found" : "not found");
+      baselineSafe = (support && support.status && support.status.baseline === "high") || false;
+      browsers = (support && support.status && support.status.support) ? Object.keys(support.status.support) : [];
+    } catch (wfError) {
+      console.error("Web-features lookup failed:", wfError);
+      baselineSafe = false;
+      browsers = [];
+    }
 
-        const aiResult = await model.generateContent(prompt);
-        const response = await aiResult.response;
-        aiExplanation = response.text() || "";
-      } else {
-        aiExplanation = baselineSafe 
-          ? `The "${feature}" feature is considered baseline safe and has broad browser support.`
-          : `The "${feature}" feature may have limited browser support. Please check compatibility before using in production.`;
-      }
-    } catch (aiError) {
-      console.error("AI generation failed:", aiError);
-      aiExplanation = baselineSafe 
-        ? `The "${feature}" feature is considered baseline safe and has broad browser support.`
-        : `The "${feature}" feature may have limited browser support. Please check compatibility before using in production.`;
+    // 2️⃣ Generate simple explanation (no AI dependency)
+    let aiExplanation = "";
+    if (baselineSafe) {
+      aiExplanation = `The "${feature}" feature is considered baseline safe and has broad browser support across modern browsers.`;
+    } else {
+      aiExplanation = `The "${feature}" feature may have limited browser support. Please check compatibility before using in production. Consider using feature detection or polyfills.`;
     }
 
     // 3️⃣ Return result to frontend
