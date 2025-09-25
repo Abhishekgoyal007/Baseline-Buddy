@@ -1,0 +1,14 @@
+# Render Deployment Configuration
+
+## Build Command
+npm install
+
+## Start Command  
+npm start
+
+## Environment Variables Required:
+- GOOGLE_API_KEY: Your Google Gemini API Key
+- NODE_ENV: production
+
+## Auto-Deploy
+Enable auto-deploy from main branch

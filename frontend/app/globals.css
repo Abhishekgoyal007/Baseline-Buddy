@@ -124,3 +124,21 @@
     @apply bg-background text-foreground;
   }
 }
+
+/* Custom scrollbar styles */
+::-webkit-scrollbar {
+  width: 8px;
+}
+
+::-webkit-scrollbar-track {
+  background: #2D2D2D;
+}
+
+::-webkit-scrollbar-thumb {
+  background: #4F4F4F;
+  border-radius: 4px;
+}
+
+::-webkit-scrollbar-thumb:hover {
+  background: #5a5a5a;
+}

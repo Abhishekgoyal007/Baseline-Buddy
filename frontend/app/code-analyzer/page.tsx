@@ -1,4 +1,4 @@
-﻿"use client";
+"use client";
 
 import { useState, useEffect } from "react";
 import dynamic from "next/dynamic";
@@ -357,7 +357,7 @@ function MyComponent() {
 
     setLoading(true);
     try {
-      const response = await fetch("http://localhost:5000/analyze-code", {
+      const response = await fetch(`${process.env.NEXT_PUBLIC_API_URL || "http://localhost:5000"}/analyze-code`, {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({ code, language }),
@@ -492,25 +492,6 @@ useEffect(() => {
           Check if your HTML, CSS, JavaScript, TypeScript, or React code is Baseline Web Platform safe
         </p>
       </div>
-
-      <style jsx global>{`
-        ::-webkit-scrollbar {
-          width: 8px;
-        }
-
-        ::-webkit-scrollbar-track {
-          background: #2D2D2D;
-        }
-
-        ::-webkit-scrollbar-thumb {
-          background: #4F4F4F;
-          border-radius: 4px;
-        }
-
-        ::-webkit-scrollbar-thumb:hover {
-          background: #5a5a5a;
-        }
-      `}</style>
 
       <div className="h-[calc(100vh-200px)]">
         <SplitPane
