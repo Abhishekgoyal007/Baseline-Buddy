@@ -19,7 +19,7 @@ let app: any = null;
 let auth: any = null;
 
 try {
-  if (firebaseConfig.apiKey !== "demo-key") {
+  if (firebaseConfig.apiKey !== "demo-key" && firebaseConfig.apiKey) {
     app = initializeApp(firebaseConfig);
     auth = getAuth(app);
   }
@@ -27,6 +27,7 @@ try {
   console.warn("Firebase initialization failed, running in demo mode");
 }
 
+// Export auth with fallback
 export { auth };
 
 // Analytics (only initialize in browser environment)
