@@ -5,8 +5,22 @@ const { GoogleGenerativeAI } = require("@google/generative-ai");
 require("dotenv").config({ path: './.env' });
 
 const app = express();
-app.use(cors());
-app.use(express.json());
+
+// Enhanced CORS configuration for better browser compatibility
+app.use(cors({
+  origin: ['https://baseline-buddy.vercel.app', 'https://baseline-buddy-*.vercel.app', 'http://localhost:3000', 'http://localhost:3001'],
+  credentials: true,
+  methods: ['GET', 'POST', 'PUT', 'DELETE', 'OPTIONS'],
+  allowedHeaders: ['Content-Type', 'Authorization', 'Accept', 'Origin', 'X-Requested-With'],
+  preflightContinue: false,
+  optionsSuccessStatus: 204
+}));
+
+// Handle preflight requests
+app.options('*', cors());
+
+app.use(express.json({ limit: '10mb' }));
+app.use(express.urlencoded({ extended: true }));
 
 const port = process.env.PORT || 5000;
 
@@ -54,6 +68,11 @@ Keep the explanation short, clear, and actionable.
       browsers,
       aiExplanation,
     };
+    
+    // Set explicit headers for better browser compatibility
+    res.header('Access-Control-Allow-Origin', '*');
+    res.header('Access-Control-Allow-Methods', 'GET, POST, PUT, DELETE, OPTIONS');
+    res.header('Access-Control-Allow-Headers', 'Content-Type, Authorization, Accept, Origin, X-Requested-With');
     
     console.log("Sending result:", result);
     res.json(result);
@@ -350,6 +369,14 @@ app.post("/analyze-code", async (req, res) => {
 
     // Generate enhancement suggestions
     const enhancements = generateEnhancements(code, language, safe, caution, unsafe);
+
+    // Set explicit headers for better browser compatibility
+    res.header('Access-Control-Allow-Origin', '*');
+    res.header('Access-Control-Allow-Methods', 'GET, POST, PUT, DELETE, OPTIONS');
+    res.header('Access-Control-Allow-Headers', 'Content-Type, Authorization, Accept, Origin, X-Requested-With');
+    res.header('Cache-Control', 'no-cache, no-store, must-revalidate');
+    res.header('Pragma', 'no-cache');
+    res.header('Expires', '0');
 
     res.json({
       safe,
