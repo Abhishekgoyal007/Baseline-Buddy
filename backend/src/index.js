@@ -50,16 +50,30 @@ app.post("/check-feature", async (req, res) => {
     const browsers = (support && support.status && support.status.support) ? Object.keys(support.status.support) : [];
 
     // 2️⃣ Generate AI explanation
-    const prompt = `
+    let aiExplanation = "";
+    try {
+      if (process.env.GOOGLE_API_KEY) {
+        const prompt = `
 You are a senior web developer helping another developer.
 The feature "${feature}" is ${baselineSafe ? "fully safe" : "not fully supported"} in modern browsers.
 Explain why this feature is ${baselineSafe ? "safe" : "risky"} and suggest safer alternatives if needed.
 Keep the explanation short, clear, and actionable.
 `;
 
-    const aiResult = await model.generateContent(prompt);
-    const response = await aiResult.response;
-    const aiExplanation = response.text() || "";
+        const aiResult = await model.generateContent(prompt);
+        const response = await aiResult.response;
+        aiExplanation = response.text() || "";
+      } else {
+        aiExplanation = baselineSafe 
+          ? `The "${feature}" feature is considered baseline safe and has broad browser support.`
+          : `The "${feature}" feature may have limited browser support. Please check compatibility before using in production.`;
+      }
+    } catch (aiError) {
+      console.error("AI generation failed:", aiError);
+      aiExplanation = baselineSafe 
+        ? `The "${feature}" feature is considered baseline safe and has broad browser support.`
+        : `The "${feature}" feature may have limited browser support. Please check compatibility before using in production.`;
+    }
 
     // 3️⃣ Return result to frontend
     const result = {
