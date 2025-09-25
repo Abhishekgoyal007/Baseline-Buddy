@@ -479,7 +479,7 @@ function MyComponent() {
 
   const handleAuth = async () => {
     if (!auth) {
-      setAuthError("Authentication not available");
+      setAuthError("Authentication service is currently unavailable. Please try again later.");
       return;
     }
     try {
@@ -497,7 +497,7 @@ function MyComponent() {
 
   const handleGoogleLogin = async () => {
     if (!auth || !googleProvider) {
-      setAuthError("Authentication not available");
+      setAuthError("Google authentication is currently unavailable. Please try email/password login.");
       return;
     }
     try {

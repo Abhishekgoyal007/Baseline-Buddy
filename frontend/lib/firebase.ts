@@ -12,6 +12,13 @@ const hasFirebaseConfig = process.env.NEXT_PUBLIC_FIREBASE_API_KEY &&
                           process.env.NEXT_PUBLIC_FIREBASE_AUTH_DOMAIN &&
                           process.env.NEXT_PUBLIC_FIREBASE_PROJECT_ID;
 
+console.log("Firebase config check:", {
+  apiKey: !!process.env.NEXT_PUBLIC_FIREBASE_API_KEY,
+  authDomain: !!process.env.NEXT_PUBLIC_FIREBASE_AUTH_DOMAIN,
+  projectId: !!process.env.NEXT_PUBLIC_FIREBASE_PROJECT_ID,
+  hasConfig: hasFirebaseConfig
+});
+
 if (hasFirebaseConfig) {
   try {
     const firebaseConfig = {
@@ -26,9 +33,13 @@ if (hasFirebaseConfig) {
     
     app = initializeApp(firebaseConfig);
     auth = getAuth(app);
+    console.log("Firebase initialized successfully");
   } catch (error) {
-    console.warn("Firebase initialization failed:", error);
+    console.error("Firebase initialization failed:", error);
+    auth = null;
   }
+} else {
+  console.log("Firebase not initialized - missing environment variables");
 }
 
 export { auth };

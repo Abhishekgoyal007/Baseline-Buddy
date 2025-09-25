@@ -48,17 +48,31 @@ function App() {
     setResult(null)
 
     try {
-      const response = await fetch(`${process.env.NEXT_PUBLIC_API_URL || "http://localhost:5000"}/check-feature`, {
+      const apiUrl = process.env.NEXT_PUBLIC_API_URL || "https://baseline-buddy-backend.onrender.com";
+      console.log("Feature check request to:", `${apiUrl}/check-feature`);
+      console.log("Environment API URL:", process.env.NEXT_PUBLIC_API_URL);
+
+      const response = await fetch(`${apiUrl}/check-feature`, {
         method: "POST",
-        headers: { "Content-Type": "application/json" },
+        headers: { 
+          "Content-Type": "application/json",
+          "Accept": "application/json",
+          "Cache-Control": "no-cache"
+        },
         body: JSON.stringify({ feature }),
+        mode: 'cors',
+        credentials: 'omit'
       })
 
-      if (!response.ok) throw new Error("Failed to fetch result")
+      console.log("Feature check response status:", response.status);
+      
+      if (!response.ok) throw new Error(`Failed to fetch result: ${response.status}`)
 
       const data = await response.json()
+      console.log("Feature check result:", data);
       setResult(data)
-    } catch {
+    } catch (error) {
+      console.error("Feature check error:", error);
       setError("Something went wrong. Please try again later.")
     } finally {
       setLoading(false)
