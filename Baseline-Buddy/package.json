@@ -1,0 +1,37 @@
+{
+  "name": "baseline-buddy",
+  "version": "1.0.0",
+  "description": "Baseline Buddy - AI-powered health monitoring app",
+  "private": true,
+  "workspaces": [
+    "frontend",
+    "backend"
+  ],
+  "scripts": {
+    "dev": "concurrently \"npm run dev --prefix frontend\" \"npm run dev --prefix backend\"",
+    "build": "npm run build --prefix frontend && npm run build --prefix backend",
+    "start:frontend": "npm run dev --prefix frontend",
+    "start:backend": "npm run dev --prefix backend",
+    "install:all": "npm install && npm install --prefix frontend && npm install --prefix backend"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/Abhishekgoyal007/Baseline-Buddy.git"
+  },
+  "keywords": [
+    "health",
+    "ai",
+    "monitoring",
+    "nextjs",
+    "express"
+  ],
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/Abhishekgoyal007/Baseline-Buddy/issues"
+  },
+  "homepage": "https://github.com/Abhishekgoyal007/Baseline-Buddy#readme",
+  "devDependencies": {
+    "concurrently": "^8.2.2"
+  }
+}
