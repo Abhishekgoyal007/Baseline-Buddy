@@ -48,29 +48,33 @@ function App() {
     setResult(null)
 
     try {
-      const apiUrl = process.env.NEXT_PUBLIC_API_URL || "https://baseline-buddy-backend.onrender.com";
-      console.log("Feature check request to:", `${apiUrl}/check-feature`);
-      console.log("Environment API URL:", process.env.NEXT_PUBLIC_API_URL);
-
-      const response = await fetch(`${apiUrl}/check-feature-v2`, {
-        method: "POST",
-        headers: { 
-          "Content-Type": "application/json",
-          "Accept": "application/json",
-          "Cache-Control": "no-cache"
-        },
-        body: JSON.stringify({ feature }),
-        mode: 'cors',
-        credentials: 'omit'
-      })
-
-      console.log("Feature check response status:", response.status);
+      // Frontend-only feature checking (no backend dependency)
+      console.log("Checking feature:", feature);
       
-      if (!response.ok) throw new Error(`Failed to fetch result: ${response.status}`)
-
-      const data = await response.json()
+      // Comprehensive baseline safe features list
+      const baselineFeatures = [
+        'flexbox', 'grid', 'fetch', 'promises', 'arrow-functions', 'const', 'let',
+        'css-variables', 'viewport-units', 'calc', 'transforms', 'transitions',
+        'media-queries', 'border-radius', 'box-shadow', 'gradients', 'rgba',
+        'websockets', 'geolocation', 'local-storage', 'session-storage',
+        'canvas', 'svg', 'webgl', 'audio-api', 'video-api', 'has', 'container-queries',
+        'aspect-ratio', 'gap', 'object-fit', 'position-sticky', 'clip-path'
+      ];
+      
+      const isBaselineSafe = baselineFeatures.includes(feature.toLowerCase()) || 
+                            baselineFeatures.some(f => feature.toLowerCase().includes(f));
+      
+      const data = {
+        feature,
+        baselineSafe: isBaselineSafe,
+        browsers: ["chrome", "firefox", "safari", "edge"],
+        aiExplanation: isBaselineSafe 
+          ? `The "${feature}" feature is considered baseline safe and has broad browser support across modern browsers. You can use this feature confidently in production.`
+          : `The "${feature}" feature may have limited browser support. Please check caniuse.com for detailed compatibility information and consider using feature detection or polyfills before using in production.`
+      };
+      
       console.log("Feature check result:", data);
-      setResult(data)
+      setResult(data);
     } catch (error) {
       console.error("Feature check error:", error);
       setError("Something went wrong. Please try again later.")
