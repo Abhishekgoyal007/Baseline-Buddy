@@ -16,8 +16,8 @@ app.use(cors({
   optionsSuccessStatus: 204
 }));
 
-// Handle preflight requests
-app.options('*', cors());
+// Handle preflight requests - FIXED: Use regex pattern instead of '*'
+app.options(/.*/, cors());
 
 app.use(express.json({ limit: '10mb' }));
 app.use(express.urlencoded({ extended: true }));
