@@ -5,10 +5,19 @@ const { GoogleGenerativeAI } = require("@google/generative-ai");
 require("dotenv").config({ path: './.env' });
 
 const app = express();
-app.use(cors());
+
+// CORS configuration for production
+const corsOptions = {
+  origin: process.env.FRONTEND_URL || "http://localhost:3000",
+  credentials: true,
+  optionsSuccessStatus: 200
+};
+
+app.use(cors(corsOptions));
 app.use(express.json());
 
-const port = 5000;
+// Use PORT from environment variable (Railway provides this)
+const port = process.env.PORT || 5000;
 
 // Gemini AI setup
 const genAI = new GoogleGenerativeAI(process.env.GOOGLE_API_KEY);
@@ -526,6 +535,8 @@ function generateEnhancements(code, language, safe, caution, unsafe) {
   return suggestions;
 }
 
-app.listen(port, () => {
-  console.log(`Server running at http://localhost:${port}`);
+app.listen(port, '0.0.0.0', () => {
+  console.log(`Server running on port ${port}`);
+  console.log(`Environment: ${process.env.NODE_ENV || 'development'}`);
+  console.log(`CORS enabled for: ${corsOptions.origin}`);
 });
