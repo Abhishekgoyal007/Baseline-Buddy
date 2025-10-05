@@ -1,10 +1,15 @@
 const express = require("express");
 const cors = require("cors");
-const wf = require("web-features");
 const { GoogleGenerativeAI } = require("@google/generative-ai");
 require("dotenv").config({ path: './.env' });
 
 const app = express();
+
+// Dynamic import for web-features (ESM module)
+let wf = null;
+(async () => {
+  wf = await import("web-features");
+})();
 
 // CORS configuration for production
 const corsOptions = {
@@ -36,6 +41,11 @@ app.post("/check-feature", async (req, res) => {
     console.log("Request body:", req.body);
     const { feature } = req.body;
     if (!feature) return res.status(400).json({ error: "Feature is required" });
+
+    // Wait for web-features to load if not already loaded
+    if (!wf) {
+      wf = await import("web-features");
+    }
 
     // 1️⃣ Check Baseline using web-features
     console.log("Looking for feature:", feature);
