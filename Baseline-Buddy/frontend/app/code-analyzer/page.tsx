@@ -24,6 +24,7 @@ import { Document, Packer, Paragraph, TextRun, HeadingLevel } from "docx";
 
 
 // Dynamically import Monaco Editor
+// eslint-disable-next-line @typescript-eslint/no-explicit-any
 const Editor: any = dynamic(
   () => import("@monaco-editor/react").then((mod) => ({ default: mod.default })),
   {
@@ -447,7 +448,7 @@ function MyComponent() {
       }
       setShowAuthDialog(false);
       setAuthError("");
-    } catch (err) {
+    } catch (_err) {
       setAuthError("Authentication failed. Check your credentials.");
     }
   };
@@ -457,7 +458,7 @@ function MyComponent() {
       await signInWithPopup(auth, googleProvider);
       setShowAuthDialog(false);
       setAuthError("");
-    } catch (err) {
+    } catch (_err) {
       setAuthError("Google sign-in failed");
     }
   };
@@ -466,6 +467,7 @@ useEffect(() => {
   if (user && downloadPending) {
     handleDownload();
   }
+// eslint-disable-next-line react-hooks/exhaustive-deps
 }, [user, downloadPending]);
 
   return (
@@ -613,7 +615,7 @@ useEffect(() => {
                     <label className="text-sm font-medium">Format:</label>
                     <select
                       value={downloadFormat}
-                      onChange={(e) => setDownloadFormat(e.target.value as any)}
+                      onChange={(e) => setDownloadFormat(e.target.value as 'json' | 'pdf' | 'docx')}
                       className="px-3 py-1 border rounded-md text-sm bg-black text-white focus:ring-1 focus:ring-blue-500 focus:border-blue-500"
                       style={{ backgroundColor: '#000', color: '#fff' }}
                     >
@@ -835,7 +837,7 @@ useEffect(() => {
                         <div className="text-4xl mb-2">🎉</div>
                         <h3 className="text-lg font-semibold mb-2">No Specific Features Detected</h3>
                         <p className="text-muted-foreground">
-                          Your code doesn't contain any web platform features we're tracking.
+                          Your code doesn&apos;t contain any web platform features we&apos;re tracking.
                         </p>
                       </CardContent>
                     </Card>
@@ -858,7 +860,7 @@ useEffect(() => {
                     <div className="text-6xl mb-4">🚀</div>
                     <h3 className="text-xl font-semibold mb-2">Ready to Analyze</h3>
                     <p className="text-muted-foreground">
-                      Write or paste your code in the editor and click "Analyze Code" to check baseline compatibility.
+                      Write or paste your code in the editor and click &quot;Analyze Code&quot; to check baseline compatibility.
                     </p>
                   </CardContent>
                 </Card>
