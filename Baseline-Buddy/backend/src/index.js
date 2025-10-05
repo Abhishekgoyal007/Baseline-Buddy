@@ -535,8 +535,14 @@ function generateEnhancements(code, language, safe, caution, unsafe) {
   return suggestions;
 }
 
-app.listen(port, '0.0.0.0', () => {
-  console.log(`Server running on port ${port}`);
-  console.log(`Environment: ${process.env.NODE_ENV || 'development'}`);
-  console.log(`CORS enabled for: ${corsOptions.origin}`);
-});
+// For local development
+if (process.env.NODE_ENV !== 'production') {
+  app.listen(port, '0.0.0.0', () => {
+    console.log(`Server running on port ${port}`);
+    console.log(`Environment: ${process.env.NODE_ENV || 'development'}`);
+    console.log(`CORS enabled for: ${corsOptions.origin}`);
+  });
+}
+
+// Export for Vercel serverless
+module.exports = app;
