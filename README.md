@@ -1,8 +1,6 @@
 # 🎯 Baseline Buddy
 
 <div align="center">
-
-![Baseline Buddy Logo](./frontend/pu
 ### 🚀 Key Features
 
 <table>
@@ -65,13 +63,9 @@
 |---------|-------------|
 | 📈 **Stats Dashboard** | Track your usage and learning progress with animated counters |
 | 🎓 **Interactive Tutorial** | Step-by-step walkthrough for new users |
-| 💬 **Testimonials** | Real user feedback with star ratings |
-| 📞 **Contact Form** | Get in touch with validation and toast notifications |
-| 🌐 **Multi-Language** | Support for HTML, CSS, JavaScript, TypeScript, React |
+| 🌐 **Multi-Language** | Support for HTML, CSS, JavaScript, TypeScript, React and Many|
 | 🔥 **Recent Searches** | Quickly re-check your last 5 searches |
 | 📋 **Copy Results** | One-click copy to share with your team |
-| 🎨 **Glassmorphism** | Modern frosted glass design throughout |
-| ⚡ **7 Animations** | Counter, stagger, scroll reveal, button press, and more |
 | 🔒 **Firebase Auth** | Optional authentication for saved preferences |
 
 ---
@@ -79,27 +73,7 @@
 
 *Check if your code works across all modern browsers instantly!*
 
-[![Next.js](https://img.shields.io/badge/Next.js-15.5.3-black?style=for-the-badge&logo=next.js)](https://nextjs.org/)
-[![React](https://img.shields.io/badge/React-19-61DAFB?style=for-the-badge&logo=react)](https://react.dev/)
-[![TypeScript](https://img.shields.io/badge/TypeScript-5.0-3178C6?style=for-the-badge&logo=typescript)](https://www.typescriptlang.org/)
-[![Tailwind CSS](https://img.shields.io/badge/Tailwind-CSS-38B2AC?style=for-the-badge&logo=tailwind-css)](https://tailwindcss.com/)
-[![Google Gemini](https://img.shields.io/badge/Google-Gemini_AI-4285F4?style=for-the-badge&logo=google)](https://ai.google.dev/)
-
-[🚀 Live Demo](https://baseline-buddy-app.vercel.app) • [📖 Documentation](#-quick-start-local-setup) • [🎥 Video Demo](#) • [🐛 Report Bug](https://github.com/Abhishekgoyal007/Baseline-Buddy/issues)
-
-</div>
-
----
-
-## 🎬 Demo
-
-<div align="center">
-
-### **Check Any Web Feature in Seconds**
-
-![Feature Checking Demo](https://via.placeholder.com/800x450/6366f1/ffffff?text=Add+GIF+or+Screenshot+Here)
-
-*Type any feature → Get instant compatibility data → See AI explanations*
+[🚀 Live Demo](https://baseline-buddy-app.vercel.app) • [📖 Documentation](#-quick-start-local-setup) • [🐛 Report Bug](https://github.com/Abhishekgoyal007/Baseline-Buddy/issues)
 
 </div>
 
@@ -160,8 +134,6 @@ Developers waste **hours** manually checking:
 | 🔍 **Smart Search** | Autocomplete suggestions for 30+ popular web features |
 | 🤖 **AI Explanations** | Google Gemini AI provides detailed compatibility insights |
 | 📊 **Code Analyzer** | Upload entire files and get comprehensive analysis |
-| 🎨 **Modern UI** | Glassmorphism design with dark/light mode support |
-| � **PWA Ready** | Install as an app on any device |
 | ⚡ **Real-time Results** | Color-coded feedback (Safe/Caution/Unsafe) |
 | 📝 **Export Reports** | Download analysis in JSON, PDF, TXT, CSV, or DOCX |
 | ⌨️ **Keyboard Shortcuts** | `Ctrl+K` for quick search, `Ctrl+H` for help |
@@ -196,27 +168,6 @@ Monaco Editor • Firebase Auth • Vercel Analytics • jsPDF • docx • file
 </div>
 
 ---
-
-## 🏅 Hackathon Highlights
-
-<div align="center">
-
-### **Built in 48 Hours with Passion & Innovation**
-
-</div>
-
-| 🎯 Criteria | ⭐ Our Implementation |
-|------------|---------------------|
-| **💡 Innovation** | First-of-its-kind AI-powered baseline checker with full code analysis |
-| **🎨 Design** | Award-worthy glassmorphism UI with 7 custom animations |
-| **🔧 Functionality** | 15+ features including PWA, comparison mode, export in 5 formats |
-| **📱 Responsiveness** | Perfect mobile experience with dual layout (split/vertical) |
-| **🤖 AI Integration** | Google Gemini AI for smart, contextual explanations |
-| **🚀 Completeness** | Production-ready with deployment configs, auth, analytics |
-| **📚 Documentation** | Comprehensive README with step-by-step setup guide |
-| **♿ Accessibility** | Keyboard shortcuts, ARIA labels, semantic HTML |
-| **⚡ Performance** | Next.js 15 with Turbopack for blazing-fast builds |
-| **🎓 Impact** | Helps developers avoid bugs, save time, learn best practices |
 
 ### 🎯 Innovation Points
 
