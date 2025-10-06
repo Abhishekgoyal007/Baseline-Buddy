@@ -7,8 +7,9 @@ import Image from "next/image"; // Import the Image component
 import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
-import { ArrowLeft, Download, Search, Sun, Moon } from "lucide-react";
+import { ArrowLeft, Download, Search, Sun, Moon, Code2, Sparkles } from "lucide-react";
 import { SplitPane } from "@/components/ui/resizable";
+import { ThemeToggle } from "@/components/theme-toggle";
 import { auth, googleProvider } from "@/lib/firebase";
 import { onAuthStateChanged, signInWithEmailAndPassword, signInWithPopup,createUserWithEmailAndPassword, User } from "firebase/auth";
 import { Input } from "@/components/ui/input";
@@ -471,27 +472,44 @@ useEffect(() => {
 }, [user, downloadPending]);
 
   return (
-    <div className="container mx-auto px-6 py-12 max-w-6xl">
-      <div className="flex flex-col sm:flex-row items-center justify-center mb-1 relative">
-        <div className="absolute top-0 left-0">
-            <Button
-              variant="outline"
-              onClick={() => router.push("/")}
-              className="flex items-center gap-2"
-            >
-              <ArrowLeft/>
-            </Button>
-        </div>
-        <div className="text-center">
-            <h1 className="text-3xl font-bold flex items-center justify-center">
-              <Image src="/logo.png" alt="App Logo" width={50} height={50} className="mr-2" />
-              Baseline Code Analyzer
-            </h1>
+    <div className="min-h-screen gradient-bg">
+      {/* Header */}
+      <div className="sticky top-0 z-50 backdrop-blur-sm">
+        <div className="glass-card border-b">
+          <div className="container mx-auto px-3 sm:px-6 py-3 sm:py-4">
+            <div className="flex items-center justify-between">
+              <div className="flex items-center gap-2 sm:gap-4">
+                <Button
+                  variant="outline"
+                  onClick={() => router.push("/")}
+                  className="flex items-center gap-1 sm:gap-2 glow-on-hover h-8 w-8 sm:h-10 sm:w-auto px-0 sm:px-4"
+                >
+                  <ArrowLeft className="w-4 h-4" />
+                  {/* <span className="hidden sm:inline">Back</span> */}
+                </Button>
+                <div className="flex items-center gap-2">
+                  <Image src="/logo.png" alt="App Logo" width={40} height={40} className="rounded-full sm:w-[50px] sm:h-[50px]" />
+                  <h1 className="text-lg sm:text-2xl font-bold flex items-center gap-2">
+                    Code Analyzer
+                  </h1>
+                </div>
+              </div>
+              <div className="flex items-center gap-2 sm:gap-3">
+                <Badge variant="outline" className="hidden md:flex items-center gap-1">
+                  <Sparkles className="w-3 h-3" />
+                  AI-Powered
+                </Badge>
+                <ThemeToggle />
+              </div>
+            </div>
+          </div>
         </div>
       </div>
       
+      <div className="container mx-auto px-3 sm:px-6 py-4 sm:py-8 max-w-6xl">
+      
       <div className="text-center mb-4">
-        <p className="text-muted-foreground text-lg">
+        <p className="text-muted-foreground text-sm sm:text-lg px-2">
           Check if your HTML, CSS, JavaScript, TypeScript, or React code is Baseline Web Platform safe
         </p>
       </div>
@@ -515,7 +533,8 @@ useEffect(() => {
         }
       `}</style>
 
-      <div className="h-[calc(100vh-200px)]">
+      {/* Desktop: Split Pane | Mobile: Vertical Stack */}
+      <div className="hidden lg:block h-[calc(100vh-200px)]">
         <SplitPane
           defaultSplitPosition={50}
           minLeftWidth={400}
@@ -645,26 +664,24 @@ useEffect(() => {
                       </CardTitle>
                     </CardHeader>
                     <CardContent>
-                      <div className="grid grid-cols-4 gap-4 mb-4">
-                          <div className="text-center">
-                            <div className="text-2xl font-bold text-green-600">{result?.summary?.safe ?? 0}</div>
-                            <div className="text-sm text-muted-foreground">Safe</div>
-                          </div>
-                          <div className="text-center">
-                            <div className="text-2xl font-bold text-yellow-600">{result?.summary?.caution ?? 0}</div>
-                            <div className="text-sm text-muted-foreground">Caution</div>
-                          </div>
-                          <div className="text-center">
-                            <div className="text-2xl font-bold text-red-600">{result?.summary?.unsafe ?? 0}</div>
-                            <div className="text-sm text-muted-foreground">Unsafe</div>
-                          </div>
-                          <div className="text-center">
-                            <div className="text-2xl font-bold text-blue-600">{result?.summary?.total ?? 0}</div>
-                            <div className="text-sm text-muted-foreground">Total</div>
-                          </div>
+                  <div className="grid grid-cols-2 sm:grid-cols-4 gap-3 sm:gap-4 mb-4">
+                      <div className="text-center">
+                        <div className="text-xl sm:text-2xl font-bold text-green-600">{result?.summary?.safe ?? 0}</div>
+                        <div className="text-xs sm:text-sm text-muted-foreground">Safe</div>
                       </div>
-                      
-                      {result.codeAnalysis && (
+                      <div className="text-center">
+                        <div className="text-xl sm:text-2xl font-bold text-yellow-600">{result?.summary?.caution ?? 0}</div>
+                        <div className="text-xs sm:text-sm text-muted-foreground">Caution</div>
+                      </div>
+                      <div className="text-center">
+                        <div className="text-xl sm:text-2xl font-bold text-red-600">{result?.summary?.unsafe ?? 0}</div>
+                        <div className="text-xs sm:text-sm text-muted-foreground">Unsafe</div>
+                      </div>
+                      <div className="text-center">
+                        <div className="text-xl sm:text-2xl font-bold text-blue-600">{result?.summary?.total ?? 0}</div>
+                        <div className="text-xs sm:text-sm text-muted-foreground">Total</div>
+                      </div>
+                  </div>                      {result.codeAnalysis && (
                         <div className="grid grid-cols-2 gap-4 text-sm">
                           <div>
                             <strong>Lines:</strong> {result.codeAnalysis.totalLines} total, {result.codeAnalysis.codeLines} code
@@ -868,7 +885,281 @@ useEffect(() => {
             </div>
           }
         />
+      </div> {/* Close desktop split pane div */}
+      
+      {/* Mobile Layout: Vertical Stack */}
+      <div className="lg:hidden space-y-4">
+        {/* Code Editor Section */}
+        <Card>
+          <CardHeader>
+            <div className="flex items-center justify-between flex-wrap gap-2">
+              <CardTitle className="text-lg">Code Editor</CardTitle>
+              <div className="flex items-center gap-2 flex-wrap">
+                <div className="flex items-center gap-2">
+                  <label className="text-xs font-medium">Theme:</label>
+                  <Button
+                    variant="outline"
+                    size="icon"
+                    className="h-8 w-8"
+                    onClick={() => setIsDarkMode(!isDarkMode)}
+                  >
+                    {isDarkMode ? <Moon className="h-3 w-3" /> : <Sun className="h-3 w-3" />}
+                  </Button>
+                </div>
+                <div className="flex items-center gap-2">
+                  <label className="text-xs font-medium">Language:</label>
+                  <select
+                    value={language}
+                    onChange={(e) => setLanguage(e.target.value)}
+                    className="px-2 py-1 border rounded-md text-xs bg-black text-white focus:ring-1 focus:ring-blue-500"
+                    style={{ backgroundColor: '#000', color: '#fff' }}
+                  >
+                    <option value="javascript">JavaScript</option>
+                    <option value="typescript">TypeScript</option>
+                    <option value="html">HTML</option>
+                    <option value="css">CSS</option>
+                  </select>
+                </div>
+              </div>
+            </div>
+          </CardHeader>
+          <CardContent className="p-2 sm:p-4">
+            <div className="rounded-md overflow-hidden border h-[300px] sm:h-[400px]">
+              <Editor
+                height="100%"
+                language={language}
+                value={code}
+                onChange={(value: string | undefined) => setCode(value || "")}
+                theme={isDarkMode ? "vs-dark" : "light"}
+                options={{
+                  minimap: { enabled: false },
+                  fontSize: 13,
+                  lineNumbers: "on",
+                  scrollBeyondLastLine: false,
+                  automaticLayout: true,
+                  wordWrap: "on",
+                  tabSize: 2,
+                }}
+              />
+            </div>
+            <Button
+              onClick={handleAnalyze}
+              className="w-full mt-4"
+              disabled={loading || !code.trim()}
+            >
+              {loading ? "🔍 Analyzing..." : <><Search className="mr-2 h-4 w-4" /> Analyze Code</>}
+            </Button>
+            <div className="flex flex-col gap-2 mt-2">
+              <div className="flex items-center gap-2">
+                <label className="text-xs font-medium">Format:</label>
+                <select
+                  value={downloadFormat}
+                  onChange={(e) => setDownloadFormat(e.target.value as 'json' | 'pdf' | 'docx')}
+                  className="flex-1 px-2 py-1 border rounded-md text-xs bg-black text-white"
+                  style={{ backgroundColor: '#000', color: '#fff' }}
+                >
+                  <option value="json">JSON</option>
+                  <option value="txt">TXT</option>
+                  <option value="csv">CSV</option>
+                  <option value="pdf">PDF</option>
+                  <option value="docx">DOCX</option>
+                </select>
+              </div>
+              <Button onClick={handleDownload} className="w-full" disabled={!result}>
+                <Download className="mr-2 h-4 w-4" /> Download Analysis
+              </Button>
+            </div>
+          </CardContent>
+        </Card>
+
+        {/* Results Section */}
+        <div className="space-y-4">
+          {result ? (
+            <>
+              {/* Summary Card */}
+              <Card>
+                <CardHeader>
+                  <CardTitle className="flex items-center gap-2 text-lg">
+                    📊 Analysis Summary
+                  </CardTitle>
+                </CardHeader>
+                <CardContent>
+                  <div className="grid grid-cols-2 sm:grid-cols-4 gap-3 sm:gap-4 mb-4">
+                    <div className="text-center">
+                      <div className="text-xl sm:text-2xl font-bold text-green-600">{result?.summary?.safe ?? 0}</div>
+                      <div className="text-xs sm:text-sm text-muted-foreground">Safe</div>
+                    </div>
+                    <div className="text-center">
+                      <div className="text-xl sm:text-2xl font-bold text-yellow-600">{result?.summary?.caution ?? 0}</div>
+                      <div className="text-xs sm:text-sm text-muted-foreground">Caution</div>
+                    </div>
+                    <div className="text-center">
+                      <div className="text-xl sm:text-2xl font-bold text-red-600">{result?.summary?.unsafe ?? 0}</div>
+                      <div className="text-xs sm:text-sm text-muted-foreground">Unsafe</div>
+                    </div>
+                    <div className="text-center">
+                      <div className="text-xl sm:text-2xl font-bold text-blue-600">{result?.summary?.total ?? 0}</div>
+                      <div className="text-xs sm:text-sm text-muted-foreground">Total</div>
+                    </div>
+                  </div>
+                  
+                  {result.codeAnalysis && (
+                    <div className="grid grid-cols-1 sm:grid-cols-2 gap-2 sm:gap-4 text-xs sm:text-sm">
+                      <div>
+                        <strong>Lines:</strong> {result.codeAnalysis.totalLines} total, {result.codeAnalysis.codeLines} code
+                      </div>
+                      <div>
+                        <strong>Complexity:</strong> {result.codeAnalysis.complexity}
+                      </div>
+                      {result.codeAnalysis.functions !== undefined && (
+                        <div><strong>Functions:</strong> {result.codeAnalysis.functions}</div>
+                      )}
+                      {result.codeAnalysis.classes !== undefined && (
+                        <div><strong>Classes:</strong> {result.codeAnalysis.classes}</div>
+                      )}
+                    </div>
+                  )}
+                </CardContent>
+              </Card>
+
+              {/* Enhancement Suggestions */}
+              {result.enhancements.length > 0 && (
+                <Card>
+                  <CardHeader>
+                    <CardTitle className="flex items-center gap-2 text-lg">
+                      💡 Enhancement Suggestions
+                      <Badge variant="outline">{result.enhancements.length}</Badge>
+                    </CardTitle>
+                  </CardHeader>
+                  <CardContent className="space-y-3">
+                    {result.enhancements.map((enhancement, idx) => (
+                      <div key={idx} className="p-3 border rounded-lg bg-blue-50 dark:bg-blue-950">
+                        <Badge variant="secondary" className="mb-2 text-xs">{enhancement.type}</Badge>
+                        <h4 className="font-medium text-sm">{enhancement.title}</h4>
+                        <p className="text-xs text-muted-foreground mt-1">{enhancement.description}</p>
+                      </div>
+                    ))}
+                  </CardContent>
+                </Card>
+              )}
+
+              {/* Safe Features */}
+              {result.safe.length > 0 && (
+                <Card>
+                  <CardHeader>
+                    <CardTitle className="flex items-center gap-2 text-lg">
+                      ✅ Baseline Safe
+                      <Badge variant="outline" className="bg-green-100 text-green-800">
+                        {result.safe.length}
+                      </Badge>
+                    </CardTitle>
+                  </CardHeader>
+                  <CardContent className="space-y-3">
+                    {result.safe.map((feature) => (
+                      <div key={feature} className="p-3 border rounded-lg bg-green-50 dark:bg-green-950">
+                        <div className="flex items-center justify-between flex-wrap gap-2">
+                          <div className="font-medium text-green-800 dark:text-green-200 text-sm">{feature}</div>
+                          {result?.lineNumbers?.[feature] && result.lineNumbers[feature].length > 0 && (
+                            <div className="text-xs text-green-600 bg-green-100 dark:bg-green-900 px-2 py-1 rounded">
+                              Lines: {result.lineNumbers[feature].join(', ')}
+                            </div>
+                          )}
+                        </div>
+                        <p className="text-xs text-green-600 dark:text-green-300 mt-1">
+                          {result?.explanations?.[feature] || 'No explanation available'}
+                        </p>
+                      </div>
+                    ))}
+                  </CardContent>
+                </Card>
+              )}
+
+              {/* Caution Features */}
+              {result.caution.length > 0 && (
+                <Card>
+                  <CardHeader>
+                    <CardTitle className="flex items-center gap-2 text-lg">
+                      ⚠️ Use With Caution
+                      <Badge variant="outline" className="bg-yellow-100 text-yellow-800">
+                        {result.caution.length}
+                      </Badge>
+                    </CardTitle>
+                  </CardHeader>
+                  <CardContent className="space-y-3">
+                    {result.caution.map((feature) => (
+                      <div key={feature} className="p-3 border rounded-lg bg-yellow-50 dark:bg-yellow-950">
+                        <div className="flex items-center justify-between flex-wrap gap-2">
+                          <div className="font-medium text-yellow-800 dark:text-yellow-200 text-sm">{feature}</div>
+                          {result?.lineNumbers?.[feature] && result.lineNumbers[feature].length > 0 && (
+                            <div className="text-xs text-yellow-600 bg-yellow-100 dark:bg-yellow-900 px-2 py-1 rounded">
+                              Lines: {result.lineNumbers[feature].join(', ')}
+                            </div>
+                          )}
+                        </div>
+                        <p className="text-xs text-yellow-600 dark:text-yellow-300 mt-1">
+                          {result?.explanations?.[feature] || 'No explanation available'}
+                        </p>
+                        {result?.alternatives?.[feature] && (
+                          <div className="mt-2 p-2 bg-yellow-100 dark:bg-yellow-900 rounded text-xs">
+                            <strong>Alternative:</strong> {result.alternatives[feature]}
+                          </div>
+                        )}
+                      </div>
+                    ))}
+                  </CardContent>
+                </Card>
+              )}
+
+              {/* Unsafe Features */}
+              {result.unsafe.length > 0 && (
+                <Card>
+                  <CardHeader>
+                    <CardTitle className="flex items-center gap-2 text-lg">
+                      ❌ Not Baseline Safe
+                      <Badge variant="outline" className="bg-red-100 text-red-800">
+                        {result.unsafe.length}
+                      </Badge>
+                    </CardTitle>
+                  </CardHeader>
+                  <CardContent className="space-y-3">
+                    {result.unsafe.map((feature) => (
+                      <div key={feature} className="p-3 border rounded-lg bg-red-50 dark:bg-red-950">
+                        <div className="flex items-center justify-between flex-wrap gap-2">
+                          <div className="font-medium text-red-800 dark:text-red-200 text-sm">{feature}</div>
+                          {result?.lineNumbers?.[feature] && result.lineNumbers[feature].length > 0 && (
+                            <div className="text-xs text-red-600 bg-red-100 dark:bg-red-900 px-2 py-1 rounded">
+                              Lines: {result.lineNumbers[feature].join(', ')}
+                            </div>
+                          )}
+                        </div>
+                        <p className="text-xs text-red-600 dark:text-red-300 mt-1">
+                          {result?.explanations?.[feature] || 'No explanation available'}
+                        </p>
+                        {result?.alternatives?.[feature] && (
+                          <div className="mt-2 p-2 bg-red-100 dark:bg-red-900 rounded text-xs">
+                            <strong>Recommended:</strong> {result.alternatives[feature]}
+                          </div>
+                        )}
+                      </div>
+                    ))}
+                  </CardContent>
+                </Card>
+              )}
+            </>
+          ) : (
+            <Card>
+              <CardContent className="text-center py-12">
+                <div className="text-4xl sm:text-6xl mb-4">🚀</div>
+                <h3 className="text-lg sm:text-xl font-semibold mb-2">Ready to Analyze</h3>
+                <p className="text-muted-foreground text-sm sm:text-base px-4">
+                  Write or paste your code in the editor and click &quot;Analyze Code&quot; to check baseline compatibility.
+                </p>
+              </CardContent>
+            </Card>
+          )}
+        </div>
       </div>
+      
       {/* Login / SignUp Dialog */}
       <Dialog open={showAuthDialog} onOpenChange={setShowAuthDialog}>
         <DialogContent>
@@ -887,6 +1178,7 @@ useEffect(() => {
           </div>
         </DialogContent>
       </Dialog>
+      </div>
     </div>
   );
 }

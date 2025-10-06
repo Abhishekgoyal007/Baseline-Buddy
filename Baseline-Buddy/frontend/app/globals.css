@@ -5,6 +5,424 @@
 @tailwind components;
 @tailwind utilities;
 
+/* ========================================
+   🎨 SMOOTH SCROLLING
+   ======================================== */
+
+html {
+  scroll-behavior: smooth;
+}
+
+.scroll-mt-20 {
+  scroll-margin-top: 5rem;
+}
+
+/* ========================================
+   🎨 MODERN BACKGROUND OPTIONS
+   ======================================== */
+
+/* Clean with Subtle Dots Pattern - Modern & Professional */
+.gradient-bg {
+  background-color: oklch(0.98 0.01 250);
+  background-image: radial-gradient(circle, oklch(0.94 0.01 250) 1px, transparent 1px);
+  background-size: 24px 24px;
+}
+
+.dark .gradient-bg {
+  background-color: oklch(0.14 0.01 250);
+  background-image: radial-gradient(circle, oklch(0.17 0.01 250) 1px, transparent 1px);
+  background-size: 24px 24px;
+}
+
+/* ========================================
+   💫 ALTERNATIVE BACKGROUND OPTIONS (Uncomment ONE to try)
+   ======================================== */
+
+/* Option 1: Solid Clean (No Pattern)
+.gradient-bg {
+  background-color: oklch(0.98 0.005 250);
+}
+
+.dark .gradient-bg {
+  background-color: oklch(0.14 0.01 250);
+}
+*/
+
+/* Option 2: Subtle Grid Lines
+.gradient-bg {
+  background-color: oklch(0.98 0.01 250);
+  background-image: 
+    linear-gradient(oklch(0.95 0.01 250) 1px, transparent 1px),
+    linear-gradient(90deg, oklch(0.95 0.01 250) 1px, transparent 1px);
+  background-size: 60px 60px;
+}
+
+.dark .gradient-bg {
+  background-color: oklch(0.14 0.01 250);
+  background-image: 
+    linear-gradient(oklch(0.17 0.01 250) 1px, transparent 1px),
+    linear-gradient(90deg, oklch(0.17 0.01 250) 1px, transparent 1px);
+  background-size: 60px 60px;
+}
+*/
+
+/* Option 3: Soft Gradient Wash (Modern)
+.gradient-bg {
+  background: linear-gradient(
+    135deg,
+    oklch(0.98 0.01 250) 0%,
+    oklch(0.97 0.015 260) 50%,
+    oklch(0.98 0.01 240) 100%
+  );
+}
+
+.dark .gradient-bg {
+  background: linear-gradient(
+    135deg,
+    oklch(0.14 0.01 250) 0%,
+    oklch(0.15 0.015 260) 50%,
+    oklch(0.14 0.01 240) 100%
+  );
+}
+*/
+
+/* ========================================
+   ✨ GLASSMORPHISM EFFECTS
+   ======================================== */
+.glass-card {
+  background: rgba(255, 255, 255, 0.85);
+  backdrop-filter: blur(12px);
+  border: 1px solid rgba(255, 255, 255, 0.3);
+  box-shadow: 0 4px 24px 0 rgba(31, 38, 135, 0.15);
+  position: relative;
+  z-index: 1;
+}
+
+.dark .glass-card {
+  background: rgba(20, 20, 25, 0.85);
+  border: 1px solid rgba(255, 255, 255, 0.08);
+  box-shadow: 0 4px 24px 0 rgba(0, 0, 0, 0.4);
+  position: relative;
+  z-index: 1;
+}
+
+/* Ensure all content is above background effects */
+nav, main, header, footer {
+  position: relative;
+  z-index: 1;
+}
+
+/* ========================================
+   🌟 SHIMMER & GLOW EFFECTS
+   ======================================== */
+@keyframes shimmer {
+  0% {
+    background-position: -1000px 0;
+  }
+  100% {
+    background-position: 1000px 0;
+  }
+}
+
+.shimmer {
+  background: linear-gradient(
+    90deg,
+    transparent,
+    rgba(255, 255, 255, 0.3),
+    transparent
+  );
+  background-size: 1000px 100%;
+  animation: shimmer 2s infinite;
+}
+
+.glow-on-hover {
+  transition: all 0.3s ease;
+}
+
+.glow-on-hover:hover {
+  box-shadow: 0 4px 16px rgba(99, 102, 241, 0.25);
+  transform: translateY(-1px);
+}
+
+/* ========================================
+   📊 SKELETON LOADERS
+   ======================================== */
+@keyframes pulse-soft {
+  0%, 100% {
+    opacity: 1;
+  }
+  50% {
+    opacity: 0.5;
+  }
+}
+
+.skeleton {
+  background: linear-gradient(
+    90deg,
+    oklch(0.95 0 0) 25%,
+    oklch(0.90 0 0) 50%,
+    oklch(0.95 0 0) 75%
+  );
+  background-size: 200% 100%;
+  animation: shimmer 1.5s infinite;
+  border-radius: 0.5rem;
+}
+
+.dark .skeleton {
+  background: linear-gradient(
+    90deg,
+    oklch(0.20 0 0) 25%,
+    oklch(0.25 0 0) 50%,
+    oklch(0.20 0 0) 75%
+  );
+  background-size: 200% 100%;
+}
+
+/* ========================================
+   🎯 SMOOTH TRANSITIONS
+   ======================================== */
+.transition-smooth {
+  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+.slide-up {
+  animation: slideUp 0.5s ease-out;
+}
+
+@keyframes slideUp {
+  from {
+    opacity: 0;
+    transform: translateY(20px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+/* ========================================
+   📊 COMPARISON TABLE STYLES
+   ======================================== */
+table {
+  border-spacing: 0;
+}
+
+table th {
+  font-weight: 600;
+  color: oklch(0.6 0 0);
+}
+
+.dark table th {
+  color: oklch(0.8 0 0);
+}
+
+table td {
+  vertical-align: middle;
+}
+
+table tr:last-child {
+  border-bottom: none;
+}
+
+/* ========================================
+   🎉 TOAST ANIMATIONS
+   ======================================== */
+@keyframes slide-in {
+  from {
+    opacity: 0;
+    transform: translateX(100%);
+  }
+  to {
+    opacity: 1;
+    transform: translateX(0);
+  }
+}
+
+.animate-slide-in {
+  animation: slide-in 0.3s ease-out;
+}
+
+/* Pulse animation for notifications */
+@keyframes pulse-ring {
+  0% {
+    transform: scale(1);
+    opacity: 1;
+  }
+  100% {
+    transform: scale(1.5);
+    opacity: 0;
+  }
+}
+
+.animate-pulse-ring {
+  animation: pulse-ring 1s ease-out infinite;
+}
+
+.fade-in {
+  animation: fadeIn 0.5s ease-in;
+}
+
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+  }
+  to {
+    opacity: 1;
+  }
+}
+
+/* ========================================
+   🎬 NEW ANIMATIONS
+   ======================================== */
+
+/* Button Press Animation - Tactile Feedback */
+.btn-press {
+  transition: transform 0.1s ease;
+}
+
+.btn-press:active {
+  transform: scale(0.95);
+}
+
+/* Staggered Card Entrance - Cascade Effect */
+.stagger-1 {
+  animation: slideUpFade 0.6s ease-out 0.1s both;
+}
+
+.stagger-2 {
+  animation: slideUpFade 0.6s ease-out 0.2s both;
+}
+
+.stagger-3 {
+  animation: slideUpFade 0.6s ease-out 0.3s both;
+}
+
+.stagger-4 {
+  animation: slideUpFade 0.6s ease-out 0.4s both;
+}
+
+.stagger-5 {
+  animation: slideUpFade 0.6s ease-out 0.5s both;
+}
+
+.stagger-6 {
+  animation: slideUpFade 0.6s ease-out 0.6s both;
+}
+
+@keyframes slideUpFade {
+  from {
+    opacity: 0;
+    transform: translateY(30px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+/* Search Input Focus Animation */
+.input-focus {
+  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+.input-focus:focus {
+  transform: scale(1.01);
+  box-shadow: 0 0 0 3px rgba(99, 102, 241, 0.1);
+}
+
+/* Scroll Reveal Animation */
+.scroll-reveal {
+  opacity: 0;
+  transform: translateY(30px);
+  transition: opacity 0.6s ease-out, transform 0.6s ease-out;
+}
+
+.scroll-reveal.revealed {
+  opacity: 1;
+  transform: translateY(0);
+}
+
+/* Loading Spinner Animation */
+@keyframes spin {
+  from {
+    transform: rotate(0deg);
+  }
+  to {
+    transform: rotate(360deg);
+  }
+}
+
+.animate-spin {
+  animation: spin 0.8s linear infinite;
+}
+
+/* Checkmark Draw Animation */
+@keyframes checkmark-draw {
+  0% {
+    stroke-dashoffset: 100;
+  }
+  100% {
+    stroke-dashoffset: 0;
+  }
+}
+
+.checkmark-draw {
+  stroke-dasharray: 100;
+  stroke-dashoffset: 100;
+  animation: checkmark-draw 0.5s ease-out forwards;
+}
+
+/* Counter Number Animation - Handled in JS */
+.counter-animate {
+  display: inline-block;
+  transition: transform 0.3s ease;
+}
+
+/* Skeleton Loading Pulse */
+@keyframes skeleton-pulse {
+  0%, 100% {
+    opacity: 1;
+  }
+  50% {
+    opacity: 0.4;
+  }
+}
+
+.skeleton-box {
+  background: linear-gradient(
+    90deg,
+    oklch(0.95 0 0) 0%,
+    oklch(0.92 0 0) 50%,
+    oklch(0.95 0 0) 100%
+  );
+  background-size: 200% 100%;
+  animation: shimmer 1.5s ease-in-out infinite;
+  border-radius: 0.5rem;
+}
+
+.dark .skeleton-box {
+  background: linear-gradient(
+    90deg,
+    oklch(0.20 0 0) 0%,
+    oklch(0.23 0 0) 50%,
+    oklch(0.20 0 0) 100%
+  );
+}
+
+/* Icon Bounce on Click */
+@keyframes bounce-icon {
+  0%, 100% {
+    transform: scale(1);
+  }
+  50% {
+    transform: scale(1.2);
+  }
+}
+
+.icon-bounce {
+  animation: bounce-icon 0.3s ease;
+}
+
 :root {
   --background: oklch(1 0 0);
   --foreground: oklch(0.145 0 0);
