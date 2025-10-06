@@ -1119,10 +1119,10 @@ const browserIcons: BrowserIconsType = {
           <DialogHeader>
             <DialogTitle className="flex items-center gap-2 text-2xl">
               <Sparkles className="w-6 h-6 text-primary" />
-              What's New in Baseline Buddy v2.0 🎉
+              What&apos;s New in Baseline Buddy v2.0 🎉
             </DialogTitle>
             <DialogDescription>
-              We've added powerful new features to enhance your workflow
+              We&apos;ve added powerful new features to enhance your workflow
             </DialogDescription>
           </DialogHeader>
           
@@ -1242,7 +1242,7 @@ const browserIcons: BrowserIconsType = {
               Welcome to Baseline Buddy! 🎉
             </DialogTitle>
             <DialogDescription>
-              Let's take a quick tour of the features to help you get started
+              Let&apos;s take a quick tour of the features to help you get started
             </DialogDescription>
           </DialogHeader>
           
@@ -1284,7 +1284,7 @@ const browserIcons: BrowserIconsType = {
                   <div>
                     <h3 className="font-semibold mb-1">Copy Results</h3>
                     <p className="text-sm text-muted-foreground">
-                      Found useful information? Click the "Copy Results" button to share findings with your team or save for documentation.
+                      Found useful information? Click the &quot;Copy Results&quot; button to share findings with your team or save for documentation.
                     </p>
                   </div>
                 </div>
@@ -1312,7 +1312,7 @@ const browserIcons: BrowserIconsType = {
                   <div>
                     <h3 className="font-semibold mb-1">Stats Dashboard</h3>
                     <p className="text-sm text-muted-foreground">
-                      Click "Stats" in the header to see your usage statistics and most-checked features. Track your learning progress!
+                      Click &quot;Stats&quot; in the header to see your usage statistics and most-checked features. Track your learning progress!
                     </p>
                   </div>
                 </div>
