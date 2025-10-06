@@ -34,9 +34,9 @@ A professional tool that instantly checks if your HTML, CSS, JavaScript, TypeScr
 
 **Frontend:** Next.js 15, React 19, TypeScript, Tailwind CSS, Radix UI, Monaco Editor
 
-**Backend:** Node.js, Express, Google Gemini AI
+**Backend:** Node.js, Express, firebase, Google Gemini AI
 
-**Deployment:** Vercel (Frontend), Railway (Backend)
+**Deployment:** Vercel (Frontend), Vercel (Backend)
 
 ---
 
