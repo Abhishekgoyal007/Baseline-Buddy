@@ -289,25 +289,6 @@ Baseline-Buddy/
 
 ---
 
-## 📸 Screenshots
-
-<div align="center">
-
-### **Landing Page with Glassmorphism**
-![Landing Page](https://via.placeholder.com/800x450/6366f1/ffffff?text=Add+Landing+Page+Screenshot)
-
-### **Code Analyzer in Action**
-![Code Analyzer](https://via.placeholder.com/800x450/10b981/ffffff?text=Add+Code+Analyzer+Screenshot)
-
-### **Mobile Responsive Design**
-<img src="https://via.placeholder.com/375x667/8b5cf6/ffffff?text=Add+Mobile+Screenshot" width="300">
-
-*📸 Tip: Replace placeholders with actual screenshots from your live app*
-
-</div>
-
----
-
 ## 🎮 How to Use
 
 ### 1. **Check a Single Feature**
@@ -354,55 +335,6 @@ Baseline-Buddy/
 
 ---
 
-## 🌐 Deployment
-
-<div align="center">
-
-### **Deploy Your Own Instance in 5 Minutes**
-
-</div>
-
-### Option 1: One-Click Deploy (Recommended for Judges)
-
-<div align="center">
-
-[![Deploy with Vercel](https://vercel.com/button)](https://vercel.com/new/clone?repository-url=https://github.com/Abhishekgoyal007/Baseline-Buddy&project-name=baseline-buddy&repository-name=baseline-buddy&root-directory=frontend&env=NEXT_PUBLIC_API_URL&envDescription=Backend%20API%20URL&envLink=https://github.com/Abhishekgoyal007/Baseline-Buddy)
-[![Deploy on Railway](https://railway.app/button.svg)](https://railway.app/template/baseline-buddy)
-
-</div>
-
-### Option 2: Manual Deploy
-
-#### Deploy Frontend to Vercel
-
-1. Click the button above or go to [vercel.com](https://vercel.com)
-2. Import your GitHub repository
-3. Set **Root Directory** to `frontend`
-4. Add environment variable:
-   ```
-   NEXT_PUBLIC_API_URL=your_backend_url
-   ```
-5. Deploy!
-
-### Deploy to Railway (Backend)
-
-[![Deploy on Railway](https://railway.app/button.svg)](https://railway.app/new)
-
-1. Go to [railway.app](https://railway.app)
-2. Create new project from GitHub repo
-3. Select `backend` directory
-4. Add environment variables:
-   ```
-   GOOGLE_API_KEY=your_gemini_api_key
-   FRONTEND_URL=your_vercel_url
-   NODE_ENV=production
-   ```
-5. Deploy!
-
-**Important**: Update frontend's `NEXT_PUBLIC_API_URL` with Railway URL after backend deployment.
-
----
-
 ## 🔧 Configuration
 
 ### Environment Variables
@@ -426,56 +358,6 @@ NEXT_PUBLIC_API_URL=http://localhost:5000
 2. Sign in with your Google account
 3. Click **"Create API Key"**
 4. Copy the key and add it to your backend `.env` file
-
----
-
-## 🧪 Available Scripts
-
-### Backend
-```bash
-npm start          # Start production server
-npm run dev        # Start development server with nodemon
-```
-
-### Frontend
-```bash
-npm run dev        # Start development server (localhost:3000)
-npm run build      # Build for production
-npm start          # Start production server
-npm run lint       # Run ESLint
-```
-
----
-
-## 🎨 Features in Detail
-
-### 🤖 AI-Powered Explanations
-Every feature check includes:
-- Browser compatibility status
-- Detailed explanation of the feature
-- When and why to use it
-- Alternative recommendations
-- Real-world use cases
-
-### 📊 Code Analyzer
-Advanced analysis includes:
-- **Feature Detection**: Automatically finds all web features
-- **Code Metrics**: Lines of code, complexity score, function count
-- **Security Checks**: Identifies potentially unsafe patterns
-- **Enhancement Suggestions**: Performance and modern best practices
-- **Multi-Language Support**: HTML, CSS, JavaScript, TypeScript, React
-
-### � Smart Autocomplete
-Pre-loaded with 30+ popular features:
-- CSS: `flexbox`, `grid`, `container-queries`, `aspect-ratio`, `:has`, etc.
-- JavaScript: `fetch`, `async-await`, `optional-chaining`, `nullish-coalescing`, etc.
-- Web APIs: `intersection-observer`, `resize-observer`, `web-animations`, etc.
-
-### � Progressive Web App (PWA)
-- Install on mobile/desktop
-- Offline-ready (with service worker)
-- Native app experience
-- Add to home screen
 
 ---
 
@@ -503,16 +385,9 @@ This project is licensed under the **MIT License** - see the [LICENSE](LICENSE) 
 
 ---
 
-## 👨‍💻 Author
+## Acknowledgments
 
-**Abhishek Goyal**
-- GitHub: [@Abhishekgoyal007](https://github.com/Abhishekgoyal007)
-- Repository: [Baseline-Buddy](https://github.com/Abhishekgoyal007/Baseline-Buddy)
-
----
-
-## 🙏 Acknowledgments
-
+- **Web.dev Baseline** - Browser compatibility data
 - **Google Gemini AI** - For powerful AI explanations
 - **Next.js Team** - For the amazing React framework
 - **Vercel** - For seamless deployment
@@ -529,53 +404,6 @@ If you have questions or need help:
 1. **Check Documentation**: Read this README thoroughly
 2. **Open an Issue**: [GitHub Issues](https://github.com/Abhishekgoyal007/Baseline-Buddy/issues)
 3. **Contact Form**: Use the contact form on the live site
-
----
-
-## ✅ Judges' Checklist
-
-<div align="center">
-
-### **Everything You Need to Evaluate Our Project**
-
-</div>
-
-| ✅ Criterion | 📍 Where to Find It | 🔗 Link |
-|-------------|-------------------|--------|
-| **Live Demo** | Production deployment | [baseline-buddy-app.vercel.app](https://baseline-buddy-app.vercel.app) |
-| **Source Code** | This repository | [GitHub](https://github.com/Abhishekgoyal007/Baseline-Buddy) |
-| **Setup Guide** | README above | [Quick Start](#-quick-start-local-setup) |
-| **Tech Stack** | README documentation | [Tech Stack](#-tech-stack) |
-| **Key Features** | README + Live demo | [Features](#-key-features) |
-| **Innovation** | Hackathon Highlights | [Innovation Points](#-hackathon-highlights) |
-| **UI/UX** | Live demo (try it!) | Landing page + Code Analyzer |
-| **Mobile Design** | Live demo on phone | Responsive layout with vertical stack |
-| **AI Integration** | Check any feature | Google Gemini explanations |
-| **Export Feature** | Code analyzer page | Download in 5 formats |
-| **PWA** | Mobile browser | "Add to Home Screen" option |
-| **Performance** | Lighthouse score | 95+ on all metrics |
-
-### 🎯 Quick Demo Script (2 Minutes)
-
-1. **Open live demo** → See glassmorphism landing page
-2. **Type "flexbox"** → See autocomplete + instant results
-3. **Click "Code Analyzer"** → Paste code → See full analysis
-4. **Enable comparison mode** → Compare "grid vs flexbox"
-5. **Download report** → Export as PDF
-6. **Try on mobile** → Responsive design in action
-
-### 💡 Technical Highlights for Judges
-
-```typescript
-// Next.js 15 App Router with React Server Components
-// TypeScript for type safety
-// Tailwind CSS for rapid styling
-// Google Gemini AI for intelligent explanations
-// PWA with manifest.json for installability
-// Firebase auth for user management (optional)
-// Vercel Analytics for tracking
-// Monaco Editor for VS Code-like experience
-```
 
 ---
 
@@ -597,48 +425,8 @@ Future features planned:
 
 ---
 
-## 📊 Stats
-
-![GitHub stars](https://img.shields.io/github/stars/Abhishekgoyal007/Baseline-Buddy?style=social)
-![GitHub forks](https://img.shields.io/github/forks/Abhishekgoyal007/Baseline-Buddy?style=social)
-![GitHub issues](https://img.shields.io/github/issues/Abhishekgoyal007/Baseline-Buddy)
-![GitHub pull requests](https://img.shields.io/github/issues-pr/Abhishekgoyal007/Baseline-Buddy)
-
----
-
 **🚀 Happy Coding! Check those features and build amazing web experiences!**
 
-## 💻 Local Development
-
-### Quick Setup
-```powershell
-# Windows
-.\setup-dev.ps1
-
-# Linux/Mac
-chmod +x setup-dev.sh
-./setup-dev.sh
-```
-
-### Manual Setup
-```bash
-# Backend
-cd backend
-npm install
-# Create .env and add GOOGLE_API_KEY
-npm run dev
-
-# Frontend (in another terminal)
-cd frontend
-npm install
-npm run dev
-```
-
-**URLs:**
-- Frontend: http://localhost:3000
-- Backend: http://localhost:5000
-
----
 
 ## 🛠 Tech Stack
 
@@ -652,136 +440,6 @@ npm run dev
 
 ---
 
-## 📁 Project Structure
-
-```
-Baseline-Buddy/
-├── backend/              # Express.js API
-│   ├── src/
-│   │   └── index.js      # Main server
-│   ├── .env.example      # Environment template
-│   └── railway.json      # Railway config
-├── frontend/             # Next.js app
-│   ├── app/              # Pages & routes
-│   ├── components/       # React components
-│   ├── .env.example      # Environment template
-│   └── vercel.json       # Vercel config
-├── DEPLOYMENT.md         # 📖 Full deployment guide
-├── READY-TO-DEPLOY.md    # ✅ Quick checklist
-└── README.md             # 👈 You are here
-```
-
----
-
-## 🔑 Environment Variables
-
-### Backend (.env)
-```env
-GOOGLE_API_KEY=your_google_gemini_api_key
-FRONTEND_URL=https://your-vercel-app.vercel.app
-NODE_ENV=production
-```
-
-### Frontend (.env.local)
-```env
-NEXT_PUBLIC_API_URL=http://localhost:5000
-```
-
-**Get API Key:** [Google AI Studio](https://makersuite.google.com/app/apikey)
-
----
-
-## 📚 API Endpoints
-
-### `POST /check-feature`
-Check if a web feature is baseline safe.
-
-**Request:**
-```json
-{
-  "feature": "fetch"
-}
-```
-
-**Response:**
-```json
-{
-  "feature": "fetch",
-  "baselineSafe": true,
-  "browsers": ["chrome", "firefox", "safari", "edge"],
-  "aiExplanation": "The Fetch API is fully supported..."
-}
-```
-
-### `POST /analyze-code`
-Analyze code for browser compatibility issues.
-
-**Request:**
-```json
-{
-  "code": "const data = fetch('...')",
-  "language": "javascript"
-}
-```
-
-📖 **Full API Docs:** [backend/README.md](./backend/README.md)
-
----
-
-## 🎯 Use Cases
-
-- ✅ **Before Deployment** - Validate features are baseline safe
-- ✅ **Code Review** - Check PRs for compatibility issues
-- ✅ **Learning** - Understand browser differences
-- ✅ **Decision Making** - Choose safe alternatives
-
----
-
-## 📖 Documentation
-
-- [DEPLOYMENT.md](./DEPLOYMENT.md) - Complete deployment guide
-- [READY-TO-DEPLOY.md](./READY-TO-DEPLOY.md) - Quick deployment checklist
-- [RAILWAY-CLI-DEPLOY.md](./RAILWAY-CLI-DEPLOY.md) - CLI deployment method
-- [backend/README.md](./backend/README.md) - Backend API documentation
-
----
-
-## 🐛 Troubleshooting
-
-**CORS Error?**
-- Verify `FRONTEND_URL` in Railway matches your Vercel URL exactly
-
-**API Not Working?**
-- Check `NEXT_PUBLIC_API_URL` in Vercel points to Railway backend
-- Ensure Railway backend is running
-
-**Build Failed?**
-- Verify all dependencies in package.json
-- Check deployment logs in Vercel/Railway dashboards
-
----
-
 ## 🤝 Contributing
 
 Contributions are welcome! Please feel free to submit a Pull Request.
-
----
-
-## 📄 License
-
-MIT License
-
----
-
-## 🙏 Credits
-
-- [web.dev Baseline](https://web.dev/baseline) - Browser compatibility data
-- [Google Gemini](https://ai.google.dev/) - AI explanations
-- [Vercel](https://vercel.com) - Frontend hosting
-- [Railway](https://railway.app) - Backend hosting
-
----
-
-**Made with ❤️ for developers**
-
-*Need help? Check [DEPLOYMENT.md](./DEPLOYMENT.md) or open an issue!*
