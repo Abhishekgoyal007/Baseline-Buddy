@@ -604,7 +604,7 @@ const browserIcons: BrowserIconsType = {
               </div>
 
               {/* Search Input with Autocomplete */}
-              <div className="flex gap-3 mb-4">
+              <div className="flex flex-col md:flex-row gap-3 mb-4">
                 <div className="relative flex-1">
                   <Search className="absolute left-3 top-1/2 transform -translate-y-1/2 text-muted-foreground w-4 h-4 z-10" />
                   <Input
@@ -1104,13 +1104,25 @@ const browserIcons: BrowserIconsType = {
 
         {/* Enhanced Footer */}
         <footer className="mt-20 pt-8 border-t border-border/50">
-          <div className="text-center text-muted-foreground space-y-2">
-            <p className="text-sm flex items-center justify-center gap-2">
-              Built with <span className="text-red-500 animate-pulse">❤️</span> for developers who care about web standards
-            </p>
-            <p className="text-xs opacity-70">Powered by AI & Web Baseline Database</p>
-          </div>
-        </footer>
+  <div className="text-center text-muted-foreground space-y-2">
+    <p className="text-sm flex items-center justify-center gap-2">
+      Built with <span className="text-red-500 animate-pulse">❤️</span> for developers who care about web standards
+    </p>
+    <p className="text-xs opacity-70">Powered by AI & Web Baseline Database</p>
+
+    {/* Contact Us Button */}
+    <div className="mt-6">
+      <a
+        href="mailto:madebytwo118@gmail.com?subject=Contact%20Baseline%20Buddy"
+        className="inline-flex items-center justify-center gap-2 px-8 py-3 text-lg btn-press"
+      >
+        <Mail className="w-4 h-4" />
+        Contact Us
+      </a>
+    </div>
+  </div>
+</footer>
+
       </main>
       
       {/* What's New Modal */}
@@ -1384,72 +1396,6 @@ const browserIcons: BrowserIconsType = {
           </div>
         </DialogContent>
       </Dialog>
-
-      {/* Contact Form Section */}
-      <section id="contact" className="max-w-4xl mx-auto mb-16 scroll-mt-20 scroll-reveal">
-        <Card className="glass-card">
-          <CardHeader>
-            <CardTitle className="flex items-center gap-2 text-2xl">
-              <Mail className="w-6 h-6 text-primary" />
-              Get in Touch
-            </CardTitle>
-            <CardDescription>
-              Have questions or feedback? We&apos;d love to hear from you!
-            </CardDescription>
-          </CardHeader>
-          <CardContent>
-            <form onSubmit={handleContactSubmit} className="space-y-4">
-              <div className="space-y-2">
-                <Input
-                  placeholder="Your Name"
-                  value={contactForm.name}
-                  onChange={(e) => setContactForm({ ...contactForm, name: e.target.value })}
-                  className="input-focus"
-                  required
-                />
-              </div>
-              <div className="space-y-2">
-                <Input
-                  type="email"
-                  placeholder="Your Email"
-                  value={contactForm.email}
-                  onChange={(e) => setContactForm({ ...contactForm, email: e.target.value })}
-                  className="input-focus"
-                  required
-                />
-              </div>
-              <div className="space-y-2">
-                <Textarea
-                  placeholder="Your Message"
-                  rows={5}
-                  value={contactForm.message}
-                  onChange={(e) => setContactForm({ ...contactForm, message: e.target.value })}
-                  className="input-focus resize-none"
-                  required
-                />
-              </div>
-              <Button
-                type="submit"
-                disabled={contactSubmitting}
-                className="w-full btn-press gap-2"
-              >
-                {contactSubmitting ? (
-                  <>
-                    <Loader2 className="w-4 h-4 animate-spin" />
-                    Sending...
-                  </>
-                ) : (
-                  <>
-                    <Send className="w-4 h-4" />
-                    Send Message
-                  </>
-                )}
-              </Button>
-            </form>
-          </CardContent>
-        </Card>
-      </section>
-
       {/* Toast Notifications */}
       <ToastContainer toasts={toasts} removeToast={removeToast} />
     </div>
