@@ -7,7 +7,7 @@ import Image from "next/image"; // Import the Image component
 import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
-import { ArrowLeft, Download, Search, Sun, Moon, Code2, Sparkles } from "lucide-react";
+import { ArrowLeft, Download, Search, Sun, Moon, Sparkles } from "lucide-react";
 import { SplitPane } from "@/components/ui/resizable";
 import { ThemeToggle } from "@/components/theme-toggle";
 import { auth, googleProvider } from "@/lib/firebase";
@@ -449,7 +449,7 @@ function MyComponent() {
       }
       setShowAuthDialog(false);
       setAuthError("");
-    } catch (_err) {
+    } catch {
       setAuthError("Authentication failed. Check your credentials.");
     }
   };
@@ -459,7 +459,7 @@ function MyComponent() {
       await signInWithPopup(auth, googleProvider);
       setShowAuthDialog(false);
       setAuthError("");
-    } catch (_err) {
+    } catch {
       setAuthError("Google sign-in failed");
     }
   };

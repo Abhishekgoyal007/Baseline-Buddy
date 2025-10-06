@@ -1,6 +1,6 @@
 "use client"
 
-import { useState, useEffect, useRef } from "react"
+import { useState, useEffect } from "react"
 import { useRouter } from "next/navigation"
 import Image from "next/image"
 import { Button } from "@/components/ui/button"
@@ -10,8 +10,7 @@ import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/com
 import { Badge } from "@/components/ui/badge"
 import { Dialog, DialogContent, DialogDescription, DialogHeader, DialogTitle } from "@/components/ui/dialog"
 import { ToastContainer } from "@/components/ui/toast"
-import { SkeletonLoader } from "@/components/ui/skeleton"
-import { Search, Loader2, CheckCircle, XCircle, Globe, Sparkles, Code2, Shield, Zap, TrendingUp, Copy, Plus, X, Clock, BarChart3, Users, Star, Award, HelpCircle, ChevronRight, Quote, Keyboard, Mail, Send, MessageSquare } from "lucide-react"
+import { Search, Loader2, CheckCircle, XCircle, Globe, Sparkles, Code2, Shield, Zap, TrendingUp, Copy, Plus, X, Clock, BarChart3, Users, Star, Award, HelpCircle, ChevronRight, Quote, Keyboard, Mail, Send } from "lucide-react"
 import { SiGooglechrome, SiFirefox, SiSafari, SiAndroid } from "react-icons/si"
 import { FaEdge } from "react-icons/fa"
 import { ThemeToggle } from "@/components/theme-toggle"
@@ -289,7 +288,7 @@ function App() {
       
       showToast(`✉️ Thanks ${contactForm.name}! We'll get back to you soon.`, 'success')
       setContactForm({ name: "", email: "", message: "" })
-    } catch (error) {
+    } catch {
       showToast('❌ Failed to send message. Please try again.', 'error')
     } finally {
       setContactSubmitting(false)
@@ -994,7 +993,7 @@ const browserIcons: BrowserIconsType = {
                 </div>
                 <Quote className="w-8 h-8 text-primary/20 mb-3" />
                 <p className="text-sm mb-4 italic">
-                  "Baseline Buddy saved our team hours of research. We can now confidently use modern CSS features knowing they're safe for our users."
+                  &quot;Baseline Buddy saved our team hours of research. We can now confidently use modern CSS features knowing they&apos;re safe for our users.&quot;
                 </p>
                 <div className="flex items-center gap-3">
                   <div className="w-10 h-10 rounded-full bg-gradient-to-r from-blue-500 to-purple-500 flex items-center justify-center text-white font-bold">
@@ -1018,7 +1017,7 @@ const browserIcons: BrowserIconsType = {
                 </div>
                 <Quote className="w-8 h-8 text-primary/20 mb-3" />
                 <p className="text-sm mb-4 italic">
-                  "The comparison mode is a game-changer! I can evaluate multiple CSS Grid alternatives side-by-side and make data-driven decisions."
+                  &quot;The comparison mode is a game-changer! I can evaluate multiple CSS Grid alternatives side-by-side and make data-driven decisions.&quot;
                 </p>
                 <div className="flex items-center gap-3">
                   <div className="w-10 h-10 rounded-full bg-gradient-to-r from-green-500 to-teal-500 flex items-center justify-center text-white font-bold">
@@ -1042,7 +1041,7 @@ const browserIcons: BrowserIconsType = {
                 </div>
                 <Quote className="w-8 h-8 text-primary/20 mb-3" />
                 <p className="text-sm mb-4 italic">
-                  "AI explanations are incredibly helpful for junior developers on our team. They learn WHY features are safe, not just IF."
+                  &quot;AI explanations are incredibly helpful for junior developers on our team. They learn WHY features are safe, not just IF.&quot;
                 </p>
                 <div className="flex items-center gap-3">
                   <div className="w-10 h-10 rounded-full bg-gradient-to-r from-pink-500 to-red-500 flex items-center justify-center text-white font-bold">
@@ -1257,7 +1256,7 @@ const browserIcons: BrowserIconsType = {
                   <div>
                     <h3 className="font-semibold mb-1">Smart Search</h3>
                     <p className="text-sm text-muted-foreground">
-                      Start typing any web feature (like "grid", "fetch", or ":has") and get instant autocomplete suggestions. Hit Enter or click Check Feature to see compatibility data.
+                      Start typing any web feature (like &quot;grid&quot;, &quot;fetch&quot;, or &quot;:has&quot;) and get instant autocomplete suggestions. Hit Enter or click Check Feature to see compatibility data.
                     </p>
                   </div>
                 </div>
@@ -1297,7 +1296,7 @@ const browserIcons: BrowserIconsType = {
                   <div>
                     <h3 className="font-semibold mb-1">Comparison Mode</h3>
                     <p className="text-sm text-muted-foreground">
-                      Enable comparison mode to check multiple features side-by-side. Perfect for evaluating alternatives like "grid vs flexbox".
+                      Enable comparison mode to check multiple features side-by-side. Perfect for evaluating alternatives like &quot;grid vs flexbox&quot;.
                     </p>
                   </div>
                 </div>
@@ -1332,7 +1331,7 @@ const browserIcons: BrowserIconsType = {
                 
                 <div className="p-4 rounded-lg bg-primary/10 border border-primary/20">
                   <p className="text-sm font-medium text-center">
-                    🎉 You're all set! Start exploring web features with confidence.
+                    🎉 You&apos;re all set! Start exploring web features with confidence.
                   </p>
                 </div>
               </div>
@@ -1395,7 +1394,7 @@ const browserIcons: BrowserIconsType = {
               Get in Touch
             </CardTitle>
             <CardDescription>
-              Have questions or feedback? We'd love to hear from you!
+              Have questions or feedback? We&apos;d love to hear from you!
             </CardDescription>
           </CardHeader>
           <CardContent>
